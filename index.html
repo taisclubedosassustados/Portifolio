@@ -30,11 +30,32 @@
 
   body {
     margin: 0;
-    font-family: 'VT323', monospace;
+    font-family: 'American Typewriter', 'VT323', monospace;
     font-size: 1.2rem;
     color: var(--preto);
     background: linear-gradient(180deg, var(--ceu) 0%, var(--ceu-claro) 45%, #fef6ff 100%);
     overflow-x: hidden;
+  }
+  /* overlay separado (não filter no body/conteúdo) para não quebrar o position:fixed dos elementos VHS */
+  .vhs-flicker-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 297;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    background: #000;
+    opacity: 0;
+    animation: vhs-flicker 5s infinite;
+  }
+  @keyframes vhs-flicker {
+    0%, 100% { opacity: 0; }
+    8% { opacity: .05; }
+    9% { opacity: 0; }
+    47% { opacity: 0; }
+    48% { opacity: .08; }
+    49% { opacity: 0; }
+    73% { opacity: .04; }
+    74% { opacity: 0; }
   }
 
   h1, h2, h3 {
@@ -44,7 +65,7 @@
   }
 
   .pixel {
-    font-family: 'VT323', monospace;
+    font-family: 'American Typewriter', 'VT323', monospace;
     letter-spacing: 1px;
   }
 
@@ -84,7 +105,7 @@
   /* ---------- BOTÕES ---------- */
   .botao {
     display: inline-block;
-    font-family: 'VT323', monospace;
+    font-family: 'American Typewriter', 'VT323', monospace;
     font-weight: 700;
     font-size: 1.25rem;
     padding: 14px 30px;
@@ -131,7 +152,7 @@
     padding: 6px 10px;
   }
   .janela-titulo {
-    font-family: 'VT323', monospace;
+    font-family: 'American Typewriter', 'VT323', monospace;
     font-size: 1.1rem;
     color: var(--branco);
     white-space: nowrap;
@@ -278,7 +299,7 @@
     text-align: center;
     padding: 20px;
     color: var(--branco);
-    font-family: 'VT323', monospace;
+    font-family: 'American Typewriter', 'VT323', monospace;
     font-size: 1.3rem;
     text-shadow: 2px 2px 0 rgba(0,0,0,.35);
   }
@@ -340,7 +361,7 @@
     margin-bottom: 40px;
   }
   .filtro-botao {
-    font-family: 'VT323', monospace;
+    font-family: 'American Typewriter', 'VT323', monospace;
     font-size: 1.15rem;
     font-weight: 600;
     padding: 8px 18px;
@@ -366,7 +387,7 @@
   .portfolio-legenda h3 { font-size: .8rem; margin: 0 0 6px; -webkit-text-stroke: 0; color: var(--preto); }
   .tag-categoria {
     display: inline-block;
-    font-family: 'VT323', monospace;
+    font-family: 'American Typewriter', 'VT323', monospace;
     font-size: .95rem;
     background: var(--amarelo);
     border: 2px solid var(--preto);
@@ -441,7 +462,7 @@
     font-style: italic;
     margin: 0 0 14px;
   }
-  .depoimento-autor { font-family: 'VT323', monospace; font-size: 1.15rem; }
+  .depoimento-autor { font-family: 'American Typewriter', 'VT323', monospace; font-size: 1.15rem; }
 
   /* ---------- CONTATO ---------- */
   .contato-grade {
@@ -456,7 +477,7 @@
   .campo input, .campo textarea {
     width: 100%;
     padding: 12px;
-    font-family: 'VT323', monospace;
+    font-family: 'American Typewriter', 'VT323', monospace;
     font-size: 1.2rem;
     border: 3px solid var(--preto);
     border-radius: 8px;
@@ -504,7 +525,7 @@
     padding: 6px 16px;
     box-shadow: 3px 3px 0px var(--preto);
   }
-  footer .copyright { font-family: 'VT323', monospace; font-size: 1.1rem; color: var(--branco); }
+  footer .copyright { font-family: 'American Typewriter', 'VT323', monospace; font-size: 1.1rem; color: var(--branco); }
 
   /* ---------- RESPONSIVO ---------- */
   @media (max-width: 768px) {
@@ -541,9 +562,129 @@
   @media (prefers-reduced-motion: reduce) {
     * { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
   }
+
+  /* ---------- VHS / FOUND FOOTAGE (efeitos de fundo) ---------- */
+  .vhs-aberracao {
+    position: fixed;
+    inset: 0;
+    z-index: 298;
+    pointer-events: none;
+  }
+  .vhs-aberracao::before,
+  .vhs-aberracao::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    mix-blend-mode: screen;
+  }
+  .vhs-aberracao::before {
+    background: rgba(255, 0, 60, .05);
+    transform: translateX(-2px);
+  }
+  .vhs-aberracao::after {
+    background: rgba(0, 200, 255, .05);
+    transform: translateX(2px);
+  }
+
+  .vhs-scanlines {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,.05) 0px, rgba(0,0,0,.05) 1px, transparent 1px, transparent 4px),
+      radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,.22) 100%);
+  }
+  .vhs-ruido {
+    position: fixed;
+    inset: -12%;
+    width: 124%;
+    height: 124%;
+    z-index: 299;
+    pointer-events: none;
+    opacity: .035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch' result='ruido'/%3E%3CfeColorMatrix in='ruido' type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: vhs-grao .3s steps(2) infinite;
+  }
+  @keyframes vhs-grao {
+    0% { transform: translate(0,0); }
+    50% { transform: translate(-2.5%, 1.5%); }
+    100% { transform: translate(2%, -2.5%); }
+  }
+  .vhs-tracking {
+    position: fixed;
+    left: 0; right: 0;
+    top: -20px;
+    height: 16px;
+    z-index: 301;
+    pointer-events: none;
+    background: linear-gradient(180deg, transparent, rgba(255,255,255,.4), transparent);
+    mix-blend-mode: overlay;
+    animation: vhs-track 9s linear infinite;
+    opacity: 0;
+  }
+  @keyframes vhs-track {
+    0%, 92% { opacity: 0; top: -20px; }
+    93% { opacity: .85; top: 18%; }
+    94% { opacity: .5; top: 52%; }
+    95% { opacity: .85; top: 78%; }
+    96%, 100% { opacity: 0; top: 110%; }
+  }
+  .rec-badge {
+    position: fixed;
+    top: 92px;
+    right: 16px;
+    z-index: 303;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 11px;
+    background: rgba(0,0,0,.55);
+    color: #fff;
+    font-family: 'American Typewriter', 'VT323', monospace;
+    font-size: .95rem;
+    letter-spacing: .5px;
+    border: 1.5px solid rgba(255,255,255,.4);
+    border-radius: 4px;
+    pointer-events: none;
+  }
+  .rec-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #ff2d2d;
+    box-shadow: 0 0 6px #ff2d2d;
+    animation: rec-piscar 1s steps(1) infinite;
+  }
+  @keyframes rec-piscar { 0%, 50% { opacity: 1; } 51%, 100% { opacity: .25; } }
+
+  .bloco-gradiente { filter: saturate(.82) contrast(1.06); }
+
+  .hero-texto h1 { animation: vhs-glitch 6s infinite; }
+  @keyframes vhs-glitch {
+    0%, 96%, 100% { text-shadow: var(--sombra); transform: translateX(0); }
+    97% { text-shadow: -2px 0 var(--roxo), 2px 0 var(--rosa), var(--sombra); transform: translateX(-1px); }
+    98% { text-shadow: 2px 0 var(--roxo), -2px 0 var(--rosa), var(--sombra); transform: translateX(1px); }
+    99% { text-shadow: var(--sombra); transform: translateX(0); }
+  }
+
+  @media (max-width: 768px) {
+    .rec-badge { top: auto; bottom: 16px; right: 12px; font-size: .82rem; padding: 4px 10px; }
+  }
 </style>
 </head>
 <body>
+
+<!-- Efeitos VHS / found footage: puramente decorativos, não interferem no conteúdo -->
+<div class="vhs-flicker-overlay" aria-hidden="true"></div>
+<div class="vhs-aberracao" aria-hidden="true"></div>
+<div class="vhs-ruido" aria-hidden="true"></div>
+<div class="vhs-scanlines" aria-hidden="true"></div>
+<div class="vhs-tracking" aria-hidden="true"></div>
+<div class="rec-badge" aria-hidden="true">
+  <span class="rec-dot"></span> REC <span id="vhs-timestamp"></span>
+</div>
 
 <header class="cabecalho">
   <div class="nav-container">
@@ -855,6 +996,20 @@
     <a href="mailto:${CONFIG.email}">${CONFIG.email}</a>
   `;
   document.getElementById("copyright").textContent = `© ${new Date().getFullYear()} ${CONFIG.nome}. Todos os direitos reservados.`;
+
+  // ---------- SELO REC (data e hora estilo câmera de vídeo) ----------
+  function atualizarTimestampVHS() {
+    const agora = new Date();
+    const meses = ["JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"];
+    const dia = String(agora.getDate()).padStart(2, "0");
+    const mes = meses[agora.getMonth()];
+    const horas = String(agora.getHours()).padStart(2, "0");
+    const minutos = String(agora.getMinutes()).padStart(2, "0");
+    const segundos = String(agora.getSeconds()).padStart(2, "0");
+    document.getElementById("vhs-timestamp").textContent = `${dia} ${mes} ${agora.getFullYear()} ${horas}:${minutos}:${segundos}`;
+  }
+  atualizarTimestampVHS();
+  setInterval(atualizarTimestampVHS, 1000);
 
   // ---------- MENU HAMBÚRGUER ----------
   const botaoHamburguer = document.getElementById("botao-hamburguer");
