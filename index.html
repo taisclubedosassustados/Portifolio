@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Portfólio profissional de criadora de conteúdo UGC. Vídeos, reels e fotos autênticas para marcas venderem mais.">
+<title>SEU NOME | Criadora de Conteúdo UGC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rosa: #ff4fb0;
+    --amarelo: #ffe24d;
+    --verde: #b6ff5c;
+    --roxo: #b794ff;
+    --ceu: #7ec8ff;
+    --ceu-claro: #b9e3ff;
+    --preto: #171316;
+    --branco: #fffdf7;
+    --sombra: 6px 6px 0px var(--preto);
+    --sombra-sm: 4px 4px 0px var(--preto);
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    color: var(--preto);
+    background: linear-gradient(180deg, var(--ceu) 0%, var(--ceu-claro) 45%, #fef6ff 100%);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Press Start 2P', cursive;
+    line-height: 1.5;
+    margin: 0 0 .6em;
+  }
+
+  .pixel {
+    font-family: 'VT323', monospace;
+    letter-spacing: 1px;
+  }
+
+  a { color: inherit; }
+
+  img, .bloco-imagem { max-width: 100%; display: block; }
+
+  section {
+    padding: 90px 20px;
+    scroll-margin-top: 80px;
+    position: relative;
+  }
+
+  .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .titulo-secao {
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    text-align: center;
+    -webkit-text-stroke: 2px var(--preto);
+    color: var(--branco);
+    text-shadow: var(--sombra-sm);
+    margin-bottom: 12px;
+  }
+
+  .subtitulo-secao {
+    text-align: center;
+    font-size: 1.1rem;
+    max-width: 620px;
+    margin: 0 auto 50px;
+    font-weight: 500;
+  }
+
+  /* ---------- BOTÕES ---------- */
+  .botao {
+    display: inline-block;
+    font-family: 'VT323', monospace;
+    font-weight: 700;
+    font-size: 1.25rem;
+    padding: 14px 30px;
+    background: var(--rosa);
+    color: var(--branco);
+    border: 3px solid var(--preto);
+    border-radius: 12px;
+    box-shadow: var(--sombra-sm);
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .botao:hover, .botao:focus-visible {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px var(--preto);
+  }
+  .botao:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px var(--preto);
+  }
+  .botao.secundario { background: var(--amarelo); color: var(--preto); }
+  .botao.terciario { background: var(--verde); color: var(--preto); }
+  .botao.roxo { background: var(--roxo); color: var(--branco); }
+
+  :focus-visible {
+    outline: 3px dashed var(--preto);
+    outline-offset: 3px;
+  }
+
+  /* ---------- JANELA ESTILO Y2K ---------- */
+  .janela {
+    background: var(--branco);
+    border: 3px solid var(--preto);
+    border-radius: 10px;
+    box-shadow: var(--sombra);
+    overflow: hidden;
+  }
+  .janela-barra {
+    background: linear-gradient(90deg, var(--roxo), var(--rosa));
+    border-bottom: 3px solid var(--preto);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+  }
+  .janela-titulo {
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+    color: var(--branco);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .janela-controles { display: flex; gap: 5px; flex-shrink: 0; }
+  .janela-controles span {
+    width: 18px; height: 18px;
+    background: var(--branco);
+    border: 2px solid var(--preto);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .7rem;
+    line-height: 1;
+  }
+  .janela-corpo { padding: 20px; }
+
+  /* ---------- STICKERS / DECORAÇÃO ---------- */
+  .sticker {
+    position: absolute;
+    font-size: 2rem;
+    animation: brilhar 2.6s ease-in-out infinite;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+  }
+  @keyframes brilhar {
+    0%, 100% { transform: scale(1) rotate(0deg); opacity: .85; }
+    50% { transform: scale(1.25) rotate(12deg); opacity: 1; }
+  }
+
+  /* ---------- REVEAL SCROLL ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visivel {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---------- HEADER / NAV ---------- */
+  .cabecalho {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--branco);
+    border-bottom: 3px solid var(--preto);
+  }
+  .nav-container {
+    max-width: 1140px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+  }
+  .logo {
+    font-family: 'Press Start 2P', cursive;
+    font-size: .85rem;
+    color: var(--rosa);
+    text-decoration: none;
+    -webkit-text-stroke: 1px var(--preto);
+  }
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 22px;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-links a {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .95rem;
+    padding: 6px 4px;
+    border-bottom: 3px solid transparent;
+    transition: border-color .2s ease, color .2s ease;
+  }
+  .nav-links a:hover, .nav-links a:focus-visible { border-color: var(--rosa); color: var(--rosa); }
+
+  .hamburguer {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    background: var(--amarelo);
+    border: 3px solid var(--preto);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .hamburguer span {
+    display: block;
+    height: 3px;
+    width: 22px;
+    margin: 0 auto;
+    background: var(--preto);
+    border-radius: 2px;
+    transition: transform .25s ease, opacity .25s ease;
+  }
+  .hamburguer.aberto span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .hamburguer.aberto span:nth-child(2) { opacity: 0; }
+  .hamburguer.aberto span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    padding-top: 150px;
+  }
+  .hero-flex {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: nowrap;
+  }
+  .hero-texto { flex: 1 1 420px; min-width: 0; }
+  .hero-texto .pixel { font-size: 1.3rem; color: var(--roxo); -webkit-text-stroke: .5px var(--preto); }
+  .hero-texto h1 {
+    font-size: clamp(1.5rem, 5vw, 2.6rem);
+    color: var(--rosa);
+    -webkit-text-stroke: 2px var(--preto);
+    text-shadow: var(--sombra);
+  }
+  .hero-texto p {
+    font-size: 1.15rem;
+    max-width: 500px;
+    margin-bottom: 26px;
+    font-weight: 500;
+  }
+  .hero-imagem { flex: 1 1 240px; max-width: 300px; min-width: 0; margin: 0 auto; }
+  .bloco-gradiente {
+    aspect-ratio: 1 / 1;
+    border-radius: 16px;
+    border: 3px solid var(--preto);
+    box-shadow: var(--sombra);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    color: var(--branco);
+    font-family: 'VT323', monospace;
+    font-size: 1.3rem;
+    text-shadow: 2px 2px 0 rgba(0,0,0,.35);
+  }
+  .grad-1 { background: linear-gradient(135deg, var(--rosa), var(--roxo)); }
+  .grad-2 { background: linear-gradient(135deg, var(--amarelo), var(--verde)); }
+  .grad-3 { background: linear-gradient(135deg, var(--roxo), var(--ceu)); }
+  .grad-4 { background: linear-gradient(135deg, var(--verde), var(--rosa)); }
+  .grad-5 { background: linear-gradient(135deg, var(--ceu), var(--amarelo)); }
+
+  /* ---------- FAIXA DE MARCAS ---------- */
+  .faixa-marcas {
+    padding: 30px 0;
+    background: var(--preto);
+    border-top: 3px solid var(--preto);
+    border-bottom: 3px solid var(--preto);
+    overflow: hidden;
+  }
+  .faixa-marcas p.pixel {
+    text-align: center;
+    color: var(--amarelo);
+    font-size: 1.2rem;
+    margin: 0 0 14px;
+  }
+  .marquee {
+    display: flex;
+    width: max-content;
+    animation: rolar 22s linear infinite;
+  }
+  .marquee span {
+    color: var(--branco);
+    font-weight: 700;
+    font-size: 1.3rem;
+    white-space: nowrap;
+    padding: 0 30px;
+    border-right: 2px solid var(--roxo);
+  }
+  @keyframes rolar {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ---------- SOBRE ---------- */
+  .sobre {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    flex-wrap: wrap;
+  }
+  .sobre-imagem { flex: 1 1 320px; max-width: 380px; margin: 0 auto; }
+  .sobre-texto { flex: 1 1 420px; }
+  .sobre-texto p { font-size: 1.05rem; font-weight: 500; margin-bottom: 16px; }
+
+  /* ---------- PORTFÓLIO ---------- */
+  .filtros {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .filtro-botao {
+    font-family: 'VT323', monospace;
+    font-size: 1.15rem;
+    font-weight: 600;
+    padding: 8px 18px;
+    background: var(--branco);
+    border: 3px solid var(--preto);
+    border-radius: 20px;
+    box-shadow: 3px 3px 0px var(--preto);
+    cursor: pointer;
+    transition: transform .12s ease, background .2s ease;
+  }
+  .filtro-botao:hover { transform: translate(-1px, -1px); }
+  .filtro-botao.ativo { background: var(--rosa); color: var(--branco); }
+
+  .galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+  }
+  .portfolio-item { transition: opacity .3s ease, transform .3s ease; }
+  .portfolio-item.escondido { display: none; }
+  .portfolio-item .bloco-gradiente { aspect-ratio: 4/5; border-radius: 0; }
+  .portfolio-legenda { padding: 12px 14px; }
+  .portfolio-legenda h3 { font-size: .8rem; margin: 0 0 6px; -webkit-text-stroke: 0; color: var(--preto); }
+  .tag-categoria {
+    display: inline-block;
+    font-family: 'VT323', monospace;
+    font-size: .95rem;
+    background: var(--amarelo);
+    border: 2px solid var(--preto);
+    border-radius: 6px;
+    padding: 1px 8px;
+  }
+
+  /* ---------- SERVIÇOS ---------- */
+  .grade-servicos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 26px;
+  }
+  .servico-card {
+    background: var(--branco);
+    border: 3px solid var(--preto);
+    border-radius: 14px;
+    box-shadow: var(--sombra-sm);
+    padding: 26px 22px;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .servico-card:hover { transform: translate(-3px, -3px); box-shadow: var(--sombra); }
+  .servico-icone { font-size: 2.2rem; margin-bottom: 10px; }
+  .servico-card h3 { font-size: .85rem; color: var(--roxo); -webkit-text-stroke: .4px var(--preto); }
+  .servico-card p { font-size: .95rem; font-weight: 500; margin: 0; }
+
+  /* ---------- RESULTADOS ---------- */
+  .resultados {
+    background: var(--preto);
+  }
+  .resultados .titulo-secao,
+  .resultados .subtitulo-secao { color: var(--branco); -webkit-text-stroke: 0; }
+  .grade-numeros {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    text-align: center;
+  }
+  .numero-card {
+    background: var(--roxo);
+    border: 3px solid var(--branco);
+    border-radius: 14px;
+    padding: 30px 16px;
+    box-shadow: 6px 6px 0px var(--rosa);
+  }
+  .stat-numero, .stat-sufixo {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.5rem;
+    color: var(--amarelo);
+  }
+  .numero-card p {
+    color: var(--branco);
+    font-weight: 600;
+    margin: 6px 0 0;
+  }
+
+  /* ---------- DEPOIMENTOS ---------- */
+  .grade-depoimentos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 26px;
+  }
+  .depoimento-card {
+    background: var(--verde);
+    border: 3px solid var(--preto);
+    border-radius: 14px;
+    box-shadow: var(--sombra-sm);
+    padding: 24px;
+  }
+  .depoimento-card p.fala {
+    font-weight: 500;
+    font-style: italic;
+    margin: 0 0 14px;
+  }
+  .depoimento-autor { font-family: 'VT323', monospace; font-size: 1.15rem; }
+
+  /* ---------- CONTATO ---------- */
+  .contato-grade {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .contato-form { flex: 1 1 360px; }
+  .contato-direto { flex: 1 1 280px; display: flex; flex-direction: column; gap: 14px; align-self: flex-start; }
+  .campo { margin-bottom: 16px; }
+  .campo label { display: block; font-weight: 600; margin-bottom: 6px; }
+  .campo input, .campo textarea {
+    width: 100%;
+    padding: 12px;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    border: 3px solid var(--preto);
+    border-radius: 8px;
+    background: var(--branco);
+  }
+  .campo textarea { resize: vertical; min-height: 110px; }
+  .mensagem-confirmacao {
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: var(--verde);
+    border: 3px solid var(--preto);
+    border-radius: 8px;
+    font-weight: 600;
+    display: none;
+  }
+  .mensagem-confirmacao.visivel { display: block; }
+  .botao-contato-direto {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  /* ---------- RODAPÉ ---------- */
+  footer {
+    background: var(--roxo);
+    border-top: 3px solid var(--preto);
+    padding: 40px 20px 24px;
+    text-align: center;
+  }
+  footer .logo { color: var(--branco); -webkit-text-stroke: 1px var(--preto); }
+  .rodape-redes {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin: 18px 0;
+    flex-wrap: wrap;
+  }
+  .rodape-redes a {
+    text-decoration: none;
+    font-weight: 700;
+    background: var(--branco);
+    border: 3px solid var(--preto);
+    border-radius: 20px;
+    padding: 6px 16px;
+    box-shadow: 3px 3px 0px var(--preto);
+  }
+  footer .copyright { font-family: 'VT323', monospace; font-size: 1.1rem; color: var(--branco); }
+
+  /* ---------- RESPONSIVO ---------- */
+  @media (max-width: 768px) {
+    .nav-links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--branco);
+      border-bottom: 3px solid var(--preto);
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .3s ease;
+    }
+    .nav-links.aberto { max-height: 400px; }
+    .nav-links li { width: 100%; text-align: center; }
+    .nav-links a { display: block; padding: 14px; border-bottom: 1px solid #eee; }
+    .hamburguer { display: flex; }
+    section { padding: 60px 16px; }
+    .hero { padding-top: 130px; }
+    .hero-flex { flex-wrap: wrap; }
+    .hero-imagem { max-width: 320px; }
+    .contato-direto { align-self: stretch; }
+  }
+
+  @media (max-width: 420px) {
+    .stat-numero, .stat-sufixo { font-size: 1.1rem; }
+    .titulo-secao { font-size: 1.1rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="cabecalho">
+  <div class="nav-container">
+    <a href="#topo" class="logo" id="logo-nav">SEU NOME</a>
+    <button class="hamburguer" id="botao-hamburguer" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-nav">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="menu-nav">
+      <li><a href="#topo">Início</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#portfolio">Portfólio</a></li>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#resultados">Resultados</a></li>
+      <li><a href="#depoimentos">Depoimentos</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section id="topo" class="hero">
+    <span class="sticker" style="top:10%; left:4%;" aria-hidden="true">✦</span>
+    <span class="sticker" style="bottom:6%; right:6%; animation-delay:.8s;" aria-hidden="true">⭐</span>
+    <div class="container hero-flex">
+      <div class="hero-texto reveal">
+        <p class="pixel">CRIADORA DE CONTEÚDO UGC</p>
+        <h1 id="hero-nome">SEU NOME</h1>
+        <p id="hero-frase"></p>
+        <a href="#contato" class="botao" id="hero-cta">Fale comigo</a>
+      </div>
+      <div class="hero-imagem reveal">
+        <div class="bloco-gradiente grad-1" role="img" aria-label="Foto de perfil de SEU NOME, criadora de conteúdo UGC">
+          <!-- EDITE AQUI: troque esta div por <img src="sua-foto.jpg" alt="Foto de SEU NOME"> para usar uma foto real -->
+          FOTO DE PERFIL
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAIXA DE MARCAS -->
+  <section class="faixa-marcas" style="padding-left:0; padding-right:0;">
+    <p class="pixel">MARCAS QUE JÁ CONFIARAM NO MEU TRABALHO</p>
+    <div class="marquee" id="marquee-marcas"></div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <span class="sticker" style="top:4%; right:8%;" aria-hidden="true">💫</span>
+    <div class="container sobre">
+      <div class="sobre-imagem reveal">
+        <div class="bloco-gradiente grad-3" role="img" aria-label="Foto de SEU NOME gravando conteúdo">
+          <!-- EDITE AQUI: troque esta div por <img src="sua-foto-sobre.jpg" alt="SEU NOME gravando conteúdo"> para usar uma foto real -->
+          NOS BASTIDORES
+        </div>
+      </div>
+      <div class="sobre-texto reveal">
+        <h2 class="titulo-secao" style="text-align:left; color:var(--rosa); -webkit-text-stroke:2px var(--preto);">Sobre mim</h2>
+        <p id="sobre-texto"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFÓLIO -->
+  <section id="portfolio">
+    <span class="sticker" style="top:2%; left:2%;" aria-hidden="true">🌟</span>
+    <div class="container">
+      <h2 class="titulo-secao">Portfólio</h2>
+      <p class="subtitulo-secao">Uma amostra dos conteúdos que já criei para marcas de diferentes nichos.</p>
+      <div class="filtros" id="filtros-portfolio"></div>
+      <div class="galeria" id="galeria-portfolio"></div>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS -->
+  <section id="servicos" style="background:linear-gradient(180deg, transparent, rgba(183,148,255,.15));">
+    <div class="container">
+      <h2 class="titulo-secao">Serviços</h2>
+      <p class="subtitulo-secao">Conteúdo pensado para gerar resultado, do jeito que a sua marca precisa.</p>
+      <div class="grade-servicos" id="grade-servicos"></div>
+    </div>
+  </section>
+
+  <!-- RESULTADOS -->
+  <section id="resultados" class="resultados">
+    <div class="container">
+      <h2 class="titulo-secao">Resultados</h2>
+      <p class="subtitulo-secao">Números que mostram o alcance e o engajamento do meu conteúdo.</p>
+      <div class="grade-numeros" id="grade-numeros"></div>
+    </div>
+  </section>
+
+  <!-- DEPOIMENTOS -->
+  <section id="depoimentos">
+    <span class="sticker" style="bottom:4%; left:4%;" aria-hidden="true">✨</span>
+    <div class="container">
+      <h2 class="titulo-secao">Depoimentos</h2>
+      <p class="subtitulo-secao">O que as marcas dizem depois de trabalhar comigo.</p>
+      <div class="grade-depoimentos" id="grade-depoimentos"></div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato" style="background:linear-gradient(180deg, rgba(255,79,176,.12), transparent);">
+    <div class="container">
+      <h2 class="titulo-secao">Vamos trabalhar juntas?</h2>
+      <p class="subtitulo-secao">Me conta sobre a sua marca e o tipo de conteúdo que você precisa.</p>
+      <div class="contato-grade">
+        <div class="contato-form janela reveal">
+          <div class="janela-barra">
+            <span class="janela-titulo">contato.exe</span>
+            <span class="janela-controles"><span>_</span><span>□</span><span>✕</span></span>
+          </div>
+          <div class="janela-corpo">
+            <form id="formulario-contato">
+              <div class="campo">
+                <label for="campo-nome">Nome</label>
+                <input type="text" id="campo-nome" name="nome" required>
+              </div>
+              <div class="campo">
+                <label for="campo-email">E-mail</label>
+                <input type="email" id="campo-email" name="email" required>
+              </div>
+              <div class="campo">
+                <label for="campo-mensagem">Mensagem</label>
+                <textarea id="campo-mensagem" name="mensagem" required></textarea>
+              </div>
+              <button type="submit" class="botao">Enviar mensagem</button>
+              <div class="mensagem-confirmacao" id="mensagem-confirmacao">Obrigada pela mensagem! Vou abrir seu e-mail para você concluir o envio.</div>
+            </form>
+          </div>
+        </div>
+        <div class="contato-direto reveal">
+          <a class="botao terciario botao-contato-direto" id="link-whatsapp" href="#" target="_blank" rel="noopener">📱 Chamar no WhatsApp</a>
+          <a class="botao secundario botao-contato-direto" id="link-email" href="#">✉️ Enviar e-mail</a>
+          <a class="botao roxo botao-contato-direto" id="link-instagram" href="#" target="_blank" rel="noopener">📸 Ver Instagram</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <a href="#topo" class="logo" id="logo-rodape">SEU NOME</a>
+  <div class="rodape-redes" id="rodape-redes"></div>
+  <p class="copyright" id="copyright"></p>
+</footer>
+
+<script>
+  /* =========================================================================
+     EDITE AQUI: TODO O CONTEÚDO DO SITE FICA NESTE OBJETO DE CONFIGURAÇÃO.
+     Troque os textos, listas e links abaixo pelos dados reais da criadora.
+  ========================================================================= */
+  const CONFIG = {
+
+    // EDITE AQUI: nome usado no menu, hero e rodapé
+    nome: "SEU NOME",
+
+    // EDITE AQUI: frase de impacto do hero (o que você faz por marcas)
+    heroFrase: "Eu crio vídeos e fotos autênticos que fazem a sua marca vender mais, com a linguagem que o seu público confia.",
+
+    // EDITE AQUI: texto da seção Sobre
+    sobreTexto: "Oi, eu sou a SEU NOME! Crio conteúdo autêntico e cheio de personalidade para marcas que querem se conectar de verdade com as pessoas. Já ajudei negócios de beleza, moda, alimentação, fitness e viagem a aparecerem no feed dos clientes certos, com vídeos e fotos que parecem recomendação de amiga, não propaganda. Entrego no prazo, sigo o briefing com atenção e trago ideias para o seu produto brilhar.",
+
+    // EDITE AQUI: seus contatos
+    email: "seuemail@email.com",
+    telefone: "(00) 00000-0000",
+    // número do WhatsApp só com dígitos e código do país, ex: 5511999999999
+    whatsappNumero: "5500000000000",
+    instagram: "@seuusuario",
+    tiktok: "@seuusuario",
+
+    // EDITE AQUI: marcas que já trabalharam com você (aparecem na faixa rolante)
+    marcas: [
+      "Bela Pele Cosméticos", "Vista Bem Moda", "Sabor Caseiro", "Studio Fit",
+      "Voa Fácil Viagens", "Doce Mania", "Pele de Seda", "Passo Certo Calçados"
+    ],
+
+    // EDITE AQUI: categorias usadas nos filtros do portfólio
+    categorias: ["Beleza", "Moda", "Comida", "Fitness", "Viagem"],
+
+    // EDITE AQUI: trabalhos do portfólio. "arquivo" é só o nome fictício mostrado na barra da janela
+    portfolio: [
+      { titulo: "Unboxing de Skincare", categoria: "Beleza", arquivo: "beleza_01.mp4", gradiente: "grad-1" },
+      { titulo: "Resenha de Maquiagem", categoria: "Beleza", arquivo: "beleza_02.mp4", gradiente: "grad-4" },
+      { titulo: "Look de Verão", categoria: "Moda", arquivo: "moda_01.jpg", gradiente: "grad-2" },
+      { titulo: "Combinando Acessórios", categoria: "Moda", arquivo: "moda_02.jpg", gradiente: "grad-5" },
+      { titulo: "Receita Prática do Dia", categoria: "Comida", arquivo: "comida_01.mp4", gradiente: "grad-3" },
+      { titulo: "Preparo Expresso", categoria: "Comida", arquivo: "comida_02.mp4", gradiente: "grad-1" },
+      { titulo: "Treino em Casa", categoria: "Fitness", arquivo: "fitness_01.mp4", gradiente: "grad-4" },
+      { titulo: "Rotina de Alongamento", categoria: "Fitness", arquivo: "fitness_02.mp4", gradiente: "grad-2" },
+      { titulo: "Mala de Viagem Perfeita", categoria: "Viagem", arquivo: "viagem_01.jpg", gradiente: "grad-5" },
+      { titulo: "Dicas para o Aeroporto", categoria: "Viagem", arquivo: "viagem_02.mp4", gradiente: "grad-3" }
+    ],
+
+    // EDITE AQUI: serviços oferecidos
+    servicos: [
+      { icone: "🎬", titulo: "Vídeo UGC", descricao: "Vídeos autênticos, gravados como se fossem de uma cliente real, prontos para usar no seu feed ou nos seus anúncios." },
+      { icone: "📱", titulo: "Reels e TikTok", descricao: "Conteúdo curto e dinâmico, pensado para reter atenção e gerar compartilhamento nas redes sociais." },
+      { icone: "📸", titulo: "Fotos de Produto", descricao: "Fotos com luz, composição e estética cuidadas para valorizar o seu produto no catálogo e nas redes." },
+      { icone: "📦", titulo: "Unboxing e Review", descricao: "A experiência real de abrir e testar o seu produto, gerando confiança em quem está decidindo comprar." },
+      { icone: "🗣️", titulo: "Depoimento em Vídeo", descricao: "Depoimentos naturais e persuasivos que reforçam a credibilidade da sua marca perante o público." },
+      { icone: "🎯", titulo: "Conteúdo para Anúncios", descricao: "Vídeos e fotos com potencial de anúncio, com ganchos fortes para performar em campanhas pagas." }
+    ],
+
+    // EDITE AQUI: números de resultado (numero é o valor final da contagem)
+    resultados: [
+      { numero: 85, sufixo: "mil+", label: "Seguidores engajados" },
+      { numero: 12, sufixo: "mi+", label: "Visualizações geradas" },
+      { numero: 40, sufixo: "+", label: "Marcas atendidas" },
+      { numero: 8, sufixo: "%", label: "Taxa média de engajamento" }
+    ],
+
+    // EDITE AQUI: depoimentos de clientes e marcas
+    depoimentos: [
+      { fala: "O conteúdo entregue superou as expectativas. Os vídeos pareciam recomendação de amiga, e isso se refletiu direto nas vendas.", nome: "Camila Rocha", empresa: "Bela Pele Cosméticos" },
+      { fala: "Profissional, criativa e sempre no prazo. A gente só manda o briefing e recebe um material pronto para publicar.", nome: "João Pereira", empresa: "Studio Fit" },
+      { fala: "Usamos os vídeos dela em campanhas pagas e a taxa de conversão foi muito acima da nossa média histórica.", nome: "Marina Alves", empresa: "Sabor Caseiro" },
+      { fala: "Entendeu a nossa marca rapidinho e trouxe ideias que a gente nem tinha pensado. Já fechamos o próximo pacote de conteúdos.", nome: "Rafael Souza", empresa: "Voa Fácil Viagens" }
+    ]
+  };
+  /* ======================= FIM DO OBJETO DE CONFIGURAÇÃO ======================= */
+
+
+  // ---------- PREENCHER TEXTOS FIXOS ----------
+  document.title = `${CONFIG.nome} | Criadora de Conteúdo UGC`;
+  document.getElementById("logo-nav").textContent = CONFIG.nome;
+  document.getElementById("logo-rodape").textContent = CONFIG.nome;
+  document.getElementById("hero-nome").textContent = CONFIG.nome;
+  document.getElementById("hero-frase").textContent = CONFIG.heroFrase;
+  document.getElementById("sobre-texto").textContent = CONFIG.sobreTexto;
+
+  // ---------- FAIXA DE MARCAS (duplicada para o loop do marquee) ----------
+  const marcasHtml = CONFIG.marcas.map(m => `<span>${m}</span>`).join("");
+  document.getElementById("marquee-marcas").innerHTML = marcasHtml + marcasHtml;
+
+  // ---------- PORTFÓLIO: FILTROS ----------
+  const filtrosContainer = document.getElementById("filtros-portfolio");
+  const listaFiltros = ["Todos", ...CONFIG.categorias];
+  filtrosContainer.innerHTML = listaFiltros.map((cat, i) =>
+    `<button class="filtro-botao${i === 0 ? " ativo" : ""}" data-categoria="${cat}">${cat}</button>`
+  ).join("");
+
+  // ---------- PORTFÓLIO: GALERIA ----------
+  const galeriaContainer = document.getElementById("galeria-portfolio");
+  galeriaContainer.innerHTML = CONFIG.portfolio.map(item => `
+    <div class="portfolio-item reveal janela" data-categoria="${item.categoria}">
+      <div class="janela-barra">
+        <span class="janela-titulo">${item.arquivo}</span>
+        <span class="janela-controles"><span>_</span><span>□</span><span>✕</span></span>
+      </div>
+      <!-- EDITE AQUI: troque esta div "bloco-gradiente" por <img src="seu-arquivo.jpg" alt="${item.titulo}"> para usar mídia real -->
+      <div class="bloco-gradiente ${item.gradiente}" role="img" aria-label="${item.titulo}, categoria ${item.categoria}"></div>
+      <div class="portfolio-legenda">
+        <h3>${item.titulo}</h3>
+        <span class="tag-categoria pixel">${item.categoria}</span>
+      </div>
+    </div>
+  `).join("");
+
+  filtrosContainer.addEventListener("click", (e) => {
+    const botao = e.target.closest(".filtro-botao");
+    if (!botao) return;
+    filtrosContainer.querySelectorAll(".filtro-botao").forEach(b => b.classList.remove("ativo"));
+    botao.classList.add("ativo");
+    const categoria = botao.dataset.categoria;
+    document.querySelectorAll(".portfolio-item").forEach(item => {
+      const mostrar = categoria === "Todos" || item.dataset.categoria === categoria;
+      item.classList.toggle("escondido", !mostrar);
+    });
+  });
+
+  // ---------- SERVIÇOS ----------
+  document.getElementById("grade-servicos").innerHTML = CONFIG.servicos.map(s => `
+    <div class="servico-card reveal">
+      <div class="servico-icone" aria-hidden="true">${s.icone}</div>
+      <h3>${s.titulo}</h3>
+      <p>${s.descricao}</p>
+    </div>
+  `).join("");
+
+  // ---------- RESULTADOS / CONTADORES ----------
+  document.getElementById("grade-numeros").innerHTML = CONFIG.resultados.map(r => `
+    <div class="numero-card reveal">
+      <span class="stat-numero" data-alvo="${r.numero}">0</span><span class="stat-sufixo">${r.sufixo}</span>
+      <p>${r.label}</p>
+    </div>
+  `).join("");
+
+  // ---------- DEPOIMENTOS ----------
+  document.getElementById("grade-depoimentos").innerHTML = CONFIG.depoimentos.map(d => `
+    <div class="depoimento-card reveal">
+      <p class="fala">"${d.fala}"</p>
+      <p class="depoimento-autor">${d.nome}, ${d.empresa}</p>
+    </div>
+  `).join("");
+
+  // ---------- CONTATO: links diretos ----------
+  document.getElementById("link-whatsapp").href = `https://wa.me/${CONFIG.whatsappNumero}?text=${encodeURIComponent("Olá " + CONFIG.nome + ", vim pelo seu portfólio e quero conversar sobre uma parceria.")}`;
+  document.getElementById("link-email").href = `mailto:${CONFIG.email}`;
+  document.getElementById("link-instagram").href = `https://instagram.com/${CONFIG.instagram.replace("@", "")}`;
+
+  // ---------- RODAPÉ ----------
+  document.getElementById("rodape-redes").innerHTML = `
+    <a href="https://instagram.com/${CONFIG.instagram.replace("@", "")}" target="_blank" rel="noopener">Instagram ${CONFIG.instagram}</a>
+    <a href="https://tiktok.com/${CONFIG.tiktok.replace("@", "")}" target="_blank" rel="noopener">TikTok ${CONFIG.tiktok}</a>
+    <a href="mailto:${CONFIG.email}">${CONFIG.email}</a>
+  `;
+  document.getElementById("copyright").textContent = `© ${new Date().getFullYear()} ${CONFIG.nome}. Todos os direitos reservados.`;
+
+  // ---------- MENU HAMBÚRGUER ----------
+  const botaoHamburguer = document.getElementById("botao-hamburguer");
+  const menuNav = document.getElementById("menu-nav");
+
+  function fecharMenu() {
+    menuNav.classList.remove("aberto");
+    botaoHamburguer.classList.remove("aberto");
+    botaoHamburguer.setAttribute("aria-expanded", "false");
+  }
+
+  botaoHamburguer.addEventListener("click", () => {
+    const aberto = menuNav.classList.toggle("aberto");
+    botaoHamburguer.classList.toggle("aberto", aberto);
+    botaoHamburguer.setAttribute("aria-expanded", String(aberto));
+  });
+
+  menuNav.querySelectorAll("a").forEach(link => link.addEventListener("click", fecharMenu));
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") fecharMenu();
+  });
+
+  // ---------- FORMULÁRIO DE CONTATO (mailto + confirmação) ----------
+  const formulario = document.getElementById("formulario-contato");
+  const mensagemConfirmacao = document.getElementById("mensagem-confirmacao");
+
+  formulario.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const nome = document.getElementById("campo-nome").value;
+    const email = document.getElementById("campo-email").value;
+    const mensagem = document.getElementById("campo-mensagem").value;
+
+    const assunto = encodeURIComponent(`Proposta de parceria de ${nome}`);
+    const corpo = encodeURIComponent(`Nome: ${nome}\nE-mail: ${email}\n\nMensagem:\n${mensagem}`);
+    window.location.href = `mailto:${CONFIG.email}?subject=${assunto}&body=${corpo}`;
+
+    mensagemConfirmacao.classList.add("visivel");
+    formulario.reset();
+  });
+
+  // ---------- ANIMAÇÕES DE ENTRADA (IntersectionObserver) ----------
+  const observadorReveal = new IntersectionObserver((entradas) => {
+    entradas.forEach(entrada => {
+      if (entrada.isIntersecting) {
+        entrada.target.classList.add("visivel");
+        observadorReveal.unobserve(entrada.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll(".reveal").forEach(el => observadorReveal.observe(el));
+
+  // ---------- CONTADORES ANIMADOS ----------
+  function animarContador(elemento) {
+    const alvo = parseInt(elemento.dataset.alvo, 10);
+    const duracao = 1600;
+    const inicio = performance.now();
+
+    function passo(agora) {
+      const progresso = Math.min((agora - inicio) / duracao, 1);
+      const valorAtual = Math.floor(progresso * alvo);
+      elemento.textContent = valorAtual;
+      if (progresso < 1) {
+        requestAnimationFrame(passo);
+      } else {
+        elemento.textContent = alvo;
+      }
+    }
+    requestAnimationFrame(passo);
+  }
+
+  const observadorContador = new IntersectionObserver((entradas) => {
+    entradas.forEach(entrada => {
+      if (entrada.isIntersecting) {
+        animarContador(entrada.target);
+        observadorContador.unobserve(entrada.target);
+      }
+    });
+  }, { threshold: 0.4 });
+
+  document.querySelectorAll(".stat-numero").forEach(el => observadorContador.observe(el));
+</script>
+</body>
+</html>
