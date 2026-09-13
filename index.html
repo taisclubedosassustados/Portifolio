@@ -906,6 +906,10 @@
   <p class="copyright" id="copyright"></p>
 </footer>
 
+<!-- Rastreamento de visitas para o painel administrativo (js/analytics.js) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/analytics.js"></script>
+
 <script>
   /* =========================================================================
      EDITE AQUI: TODO O CONTEÚDO DO SITE FICA NESTE OBJETO DE CONFIGURAÇÃO.
@@ -1018,7 +1022,7 @@
         <span class="janela-titulo">${item.titulo}</span>
         <span class="janela-controles"><span>_</span><span>□</span><span>✕</span></span>
       </div>
-      <div class="video-capa" data-youtube-id="${item.youtubeId}" style="background-image:url('https://i.ytimg.com/vi/${item.youtubeId}/hqdefault.jpg')" role="button" tabindex="0" aria-label="Reproduzir vídeo: ${item.titulo}">
+      <div class="video-capa" data-youtube-id="${item.youtubeId}" data-titulo="${item.titulo}" data-categoria="${item.categoria}" style="background-image:url('https://i.ytimg.com/vi/${item.youtubeId}/hqdefault.jpg')" role="button" tabindex="0" aria-label="Reproduzir vídeo: ${item.titulo}">
         <span class="video-play-botao" aria-hidden="true">▶</span>
       </div>
       <div class="portfolio-legenda">
@@ -1050,6 +1054,13 @@
     iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
     iframe.allowFullscreen = true;
     capa.replaceWith(iframe);
+
+    if (window.PortfolioAnalytics) {
+      PortfolioAnalytics.registrarEvento("video_view", id, {
+        title: capa.dataset.titulo,
+        category: capa.dataset.categoria
+      });
+    }
   }
 
   galeriaContainer.addEventListener("click", (e) => {
@@ -1106,6 +1117,25 @@
   document.getElementById("link-email").href = `mailto:${CONFIG.email}`;
   document.getElementById("link-instagram").href = `https://instagram.com/${CONFIG.instagram.replace("@", "")}`;
   document.getElementById("link-youtube").href = `https://youtube.com/${CONFIG.youtube}`;
+
+  // ---------- RASTREAMENTO: cliques nos botões de contato e no CTA do hero ----------
+  if (window.PortfolioAnalytics) {
+    const botoesDeContato = {
+      "hero-cta": "cta_fale_comigo",
+      "link-whatsapp": "contact_whatsapp",
+      "link-email": "contact_email",
+      "link-instagram": "contact_instagram",
+      "link-youtube": "contact_youtube"
+    };
+    Object.entries(botoesDeContato).forEach(([idBotao, nomeEvento]) => {
+      const elemento = document.getElementById(idBotao);
+      if (elemento) {
+        elemento.addEventListener("click", () => {
+          PortfolioAnalytics.registrarEvento("button_click", nomeEvento);
+        });
+      }
+    });
+  }
 
   // ---------- RODAPÉ ----------
   document.getElementById("rodape-redes").innerHTML = `
@@ -1166,6 +1196,16 @@
     const corpo = encodeURIComponent(`Nome: ${nome}\nE-mail: ${email}\n\nMensagem:\n${mensagem}`);
     window.location.href = `mailto:${CONFIG.email}?subject=${assunto}&body=${corpo}`;
 
+    if (window.PortfolioAnalytics) {
+      PortfolioAnalytics.registrarEvento("button_click", "contact_formulario");
+      PortfolioAnalytics.registrarLead({
+        name: nome,
+        email: email,
+        message: mensagem,
+        source: "contact"
+      });
+    }
+
     mensagemConfirmacao.classList.add("visivel");
     formulario.reset();
   });
@@ -1211,6 +1251,11 @@
   }, { threshold: 0.4 });
 
   document.querySelectorAll(".stat-numero").forEach(el => observadorContador.observe(el));
+
+  // ---------- RASTREAMENTO: registra a visita à página ----------
+  if (window.PortfolioAnalytics) {
+    PortfolioAnalytics.registrarEvento("page_view");
+  }
 </script>
 </body>
 </html>
