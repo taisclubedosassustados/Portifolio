@@ -144,4 +144,123 @@ end;
 $$;
 
 grant execute on function public.registrar_lead(text, text, text, text, text, text, text) to anon, authenticated;
+
+-- =========================================================================
+-- ABA "MINHA ROTINA" DO PAINEL
+-- Tabelas de organização pessoal: registros semanais/diários de entregas
+-- e tarefas manuais no calendário. Só quem está logado no painel usa isso.
+-- =========================================================================
+
+-- Cada "tick" marcado nos checklists (semanais ou diários) vira uma linha
+-- aqui. O progresso é sempre calculado somando linhas, nunca guardado como
+-- um número fixo, então nada fica dessincronizado.
+create table if not exists rotina_registros (
+  id uuid primary key default gen_random_uuid(),
+  categoria text not null,   -- 'instagram', 'tiktok', 'youtube' ou 'diario'
+  item text not null,        -- 'roteiro', 'gravacao', 'video', 'prospeccao', 'live', 'responder_mensagens', 'consumir_referencias'
+  data date not null default current_date,
+  created_at timestamptz not null default now()
+);
+
+-- Tarefas avulsas que você adiciona manualmente num dia específico do calendário.
+create table if not exists rotina_tarefas (
+  id uuid primary key default gen_random_uuid(),
+  data date not null,
+  titulo text not null,
+  concluida boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+alter table rotina_registros enable row level security;
+alter table rotina_tarefas enable row level security;
+
+create policy "leitura autenticada - rotina registros"
+  on rotina_registros for select
+  to authenticated
+  using (true);
+
+create policy "leitura autenticada - rotina tarefas"
+  on rotina_tarefas for select
+  to authenticated
+  using (true);
+
+-- Escrita também via funções "security definer" (mesmo padrão de cima),
+-- só liberada para quem está autenticado (logado no painel).
+create or replace function public.rotina_registrar_tick(
+  p_categoria text,
+  p_item text,
+  p_data date default current_date
+) returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  novo_id uuid;
+begin
+  insert into rotina_registros (categoria, item, data)
+  values (p_categoria, p_item, p_data)
+  returning id into novo_id;
+  return novo_id;
+end;
+$$;
+
+grant execute on function public.rotina_registrar_tick(text, text, date) to authenticated;
+
+create or replace function public.rotina_remover_tick(p_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  delete from rotina_registros where id = p_id;
+end;
+$$;
+
+grant execute on function public.rotina_remover_tick(uuid) to authenticated;
+
+create or replace function public.rotina_adicionar_tarefa(p_data date, p_titulo text)
+returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  novo_id uuid;
+begin
+  insert into rotina_tarefas (data, titulo)
+  values (p_data, p_titulo)
+  returning id into novo_id;
+  return novo_id;
+end;
+$$;
+
+grant execute on function public.rotina_adicionar_tarefa(date, text) to authenticated;
+
+create or replace function public.rotina_marcar_tarefa(p_id uuid, p_concluida boolean)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  update rotina_tarefas set concluida = p_concluida where id = p_id;
+end;
+$$;
+
+grant execute on function public.rotina_marcar_tarefa(uuid, boolean) to authenticated;
+
+create or replace function public.rotina_remover_tarefa(p_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  delete from rotina_tarefas where id = p_id;
+end;
+$$;
+
+grant execute on function public.rotina_remover_tarefa(uuid) to authenticated;
 -- =========================================================================

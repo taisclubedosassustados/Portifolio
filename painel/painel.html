@@ -16,15 +16,16 @@
 
 <style>
   :root {
-    --coral: #D4572A;
-    --coral-escuro: #B8461F;
-    --creme: #F5F3EF;
-    --branco: #FFFFFF;
-    --grafite: #1A1816;
-    --texto-suave: #6B645C;
-    --borda: #DDD8D0;
+    /* Mesma paleta do site do portfólio (portfolio-ugc/index.html) */
+    --coral: #AD251D;
+    --coral-escuro: #8A1E17;
+    --creme: #F2E8D5;
+    --branco: #FFFDF7;
+    --grafite: #171316;
+    --texto-suave: #7A6F5F;
+    --borda: #CFBB9F;
     --verde: #2D7A4F;
-    --vermelho: #C4453C;
+    --vermelho: #100D64;
   }
 
   * { box-sizing: border-box; }
@@ -152,9 +153,9 @@
   }
 
   .faixa-erro-geral {
-    background: #FBEAE8;
+    background: #E7E6F2;
     color: var(--vermelho);
-    border: 1px solid rgba(196, 69, 60, .25);
+    border: 1px solid rgba(16, 13, 100, .25);
     border-radius: 12px;
     padding: 14px 18px;
     margin-bottom: 20px;
@@ -458,6 +459,346 @@
     .conteudo { padding: 20px 18px 50px; }
     #titulo-pagina { font-size: 1.35rem; }
     .rotulo-barra { width: 120px; }
+    .grade-pomodoro { grid-template-columns: 1fr; }
+    .linha-hoje-progresso { grid-template-columns: 1fr; }
+    .grade-calendario { gap: 4px; }
+    .dia-calendario { font-size: .75rem; }
+  }
+
+  /* ================= ABA MINHA ROTINA ================= */
+  .grade-pomodoro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .cartao-pomodoro { text-align: center; }
+  .cartao-pomodoro h2 { font-size: 1rem; margin-bottom: 14px; }
+  .relogio-pomodoro {
+    font-family: 'Fraunces', serif;
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--vermelho);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .cartao-pomodoro-pausa .relogio-pomodoro { color: var(--verde); }
+  .controles-pomodoro {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .botao-pomodoro {
+    padding: 9px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--vermelho);
+    background: var(--vermelho);
+    color: var(--branco);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: .85rem;
+    cursor: pointer;
+  }
+  .botao-pomodoro.secundario {
+    background: var(--branco);
+    color: var(--grafite);
+    border-color: var(--borda);
+  }
+  .cartao-pomodoro-pausa .botao-pomodoro:not(.secundario) {
+    border-color: var(--verde);
+    background: var(--verde);
+  }
+
+  .linha-hoje-progresso {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .cartao-hoje {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+  }
+  .cartao-hoje iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 180px;
+    border: 0;
+    display: block;
+  }
+
+  .cartao-agenda h2 { margin-bottom: 16px; }
+  .grade-agenda {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 16px;
+  }
+  .cartao-dia-agenda {
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    padding: 16px;
+    background: var(--creme);
+  }
+  .cartao-dia-agenda h3 {
+    font-family: 'Fraunces', serif;
+    font-size: .95rem;
+    margin: 0 0 10px;
+    color: var(--vermelho);
+  }
+  .cartao-dia-agenda.dia-agenda-hoje {
+    background: var(--branco);
+    border-color: var(--vermelho);
+    border-width: 2px;
+  }
+  .cartao-dia-agenda .linha-diaria {
+    padding: 6px 0;
+    font-size: .85rem;
+    align-items: flex-start;
+  }
+  .cartao-dia-agenda .linha-diaria input { margin-top: 2px; }
+  .periodo-tarefa {
+    display: inline-block;
+    font-size: .68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--vermelho);
+    margin-right: 4px;
+  }
+
+  .cartao-progresso-semana {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    flex-wrap: wrap;
+  }
+  .cartao-progresso-semana h2 { width: 100%; }
+  .anel-progresso-container {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    flex-shrink: 0;
+  }
+  .anel-progresso { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .anel-fundo { fill: none; stroke: var(--creme); stroke-width: 11; }
+  .anel-preenchimento {
+    fill: none;
+    stroke: var(--coral);
+    stroke-width: 11;
+    stroke-linecap: round;
+    transition: stroke-dashoffset .4s ease;
+  }
+  .anel-texto {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+  .anel-legenda { color: var(--texto-suave); font-size: .9rem; margin: 0; flex: 1; min-width: 180px; }
+
+  .grade-plataformas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .cartao-plataforma h2 { margin-bottom: 2px; }
+  .legenda-mensal {
+    color: var(--texto-suave);
+    font-size: .8rem;
+    margin: 0 0 16px;
+  }
+  .linha-contador {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--borda);
+  }
+  .linha-contador:last-child { border-bottom: none; }
+  .nome-contador { flex: 1; font-size: .9rem; }
+  .controles-contador { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .botao-contador {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--borda);
+    background: var(--creme);
+    color: var(--grafite);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .botao-contador:disabled { opacity: .4; cursor: default; }
+  .valor-contador {
+    min-width: 42px;
+    text-align: center;
+    font-weight: 600;
+    font-size: .88rem;
+  }
+  .valor-contador.completo { color: var(--verde); }
+
+  .linha-diaria {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--borda);
+    font-size: .95rem;
+    cursor: pointer;
+  }
+  .linha-diaria:last-child { border-bottom: none; }
+  .linha-diaria input { width: 18px; height: 18px; accent-color: var(--coral); cursor: pointer; }
+
+  .cabecalho-calendario {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .cabecalho-calendario h2 { margin: 0; }
+  .navegacao-calendario { display: flex; gap: 6px; }
+  .navegacao-calendario .botao-periodo { padding: 6px 14px; }
+
+  .grade-calendario {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+  .rotulo-dia-semana {
+    text-align: center;
+    font-size: .75rem;
+    color: var(--texto-suave);
+    font-weight: 600;
+    padding-bottom: 4px;
+  }
+  .dia-calendario {
+    position: relative;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    background: var(--branco);
+    font-size: .85rem;
+    cursor: pointer;
+  }
+  .dia-calendario:hover { border-color: var(--vermelho); }
+  .dia-calendario.fora-do-mes { opacity: .35; cursor: default; }
+  .dia-calendario.fora-do-mes:hover { border-color: var(--borda); }
+  .dia-calendario.hoje { border-color: var(--vermelho); border-width: 2px; font-weight: 700; }
+  .dia-calendario.selecionado { background: var(--vermelho); color: var(--branco); border-color: var(--vermelho); }
+  .badge-dia {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    min-width: 15px;
+    height: 15px;
+    padding: 0 3px;
+    border-radius: 999px;
+    background: var(--vermelho);
+    color: var(--branco);
+    font-size: .62rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .detalhe-dia {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--borda);
+  }
+  .detalhe-dia h3 { font-size: 1rem; margin: 0 0 12px; }
+  .chips-atividades { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .chip-atividade {
+    font-size: .78rem;
+    background: var(--creme);
+    border: 1px solid var(--borda);
+    border-radius: 999px;
+    padding: 4px 10px;
+    color: var(--texto-suave);
+  }
+  .item-tarefa-manual {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+  }
+  .item-tarefa-manual input[type="checkbox"] { width: 17px; height: 17px; accent-color: var(--coral); cursor: pointer; }
+  .item-tarefa-manual span { flex: 1; font-size: .9rem; }
+  .data-tarefa-lista {
+    flex: none !important;
+    font-size: .72rem !important;
+    font-weight: 700;
+    color: var(--vermelho);
+    background: var(--creme);
+    border-radius: 6px;
+    padding: 3px 6px;
+    margin-right: 2px;
+  }
+  .item-tarefa-manual span.concluida { text-decoration: line-through; color: var(--texto-suave); }
+  .botao-remover-tarefa {
+    background: none;
+    border: none;
+    color: var(--texto-suave);
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 4px;
+  }
+  .botao-remover-tarefa:hover { color: var(--vermelho); }
+  .form-nova-tarefa {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .form-nova-tarefa input {
+    flex: 1;
+    min-width: 180px;
+    padding: 10px 12px;
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    font-family: 'Outfit', sans-serif;
+    font-size: .9rem;
+  }
+
+  .cartao-desafio { margin-top: 24px; }
+  .contagem-desafio {
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--vermelho);
+    margin: 4px 0 16px;
+  }
+  .grade-desafio {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 20px;
+  }
+  .circulo-desafio {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    border-radius: 50%;
+    border: 2px solid var(--borda);
+    background: var(--branco);
+  }
+  .circulo-desafio.preenchido {
+    background: var(--vermelho);
+    border-color: var(--vermelho);
   }
 </style>
 </head>
@@ -477,6 +818,10 @@
         <button class="item-menu" data-tab="portfolio">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M12 20V4"/><path d="M20 20v-7"/><path d="M2 20h20"/></svg>
           Portfólio
+        </button>
+        <button class="item-menu" data-tab="rotina">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/></svg>
+          Minha Rotina
         </button>
       </nav>
 
@@ -544,6 +889,98 @@
         <div class="cartao">
           <h2>Mensagens recebidas</h2>
           <div id="lista-mensagens"></div>
+        </div>
+      </section>
+
+      <!-- ===== Aba: Minha Rotina ===== -->
+      <section class="painel-tab" id="tab-rotina" hidden>
+        <div class="grade-pomodoro">
+          <div class="cartao cartao-pomodoro">
+            <h2>Foco (25 min)</h2>
+            <div class="relogio-pomodoro" id="relogio-foco">25:00</div>
+            <div class="controles-pomodoro">
+              <button class="botao-pomodoro" data-timer="foco" data-acao="iniciar">Iniciar</button>
+              <button class="botao-pomodoro secundario" data-timer="foco" data-acao="pausar">Pausar</button>
+              <button class="botao-pomodoro secundario" data-timer="foco" data-acao="reiniciar">Reiniciar</button>
+            </div>
+          </div>
+          <div class="cartao cartao-pomodoro cartao-pomodoro-pausa">
+            <h2>Pausa (15 min)</h2>
+            <div class="relogio-pomodoro" id="relogio-pausa">15:00</div>
+            <div class="controles-pomodoro">
+              <button class="botao-pomodoro" data-timer="pausa" data-acao="iniciar">Iniciar</button>
+              <button class="botao-pomodoro secundario" data-timer="pausa" data-acao="pausar">Pausar</button>
+              <button class="botao-pomodoro secundario" data-timer="pausa" data-acao="reiniciar">Reiniciar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="linha-hoje-progresso">
+          <div class="cartao cartao-hoje">
+            <iframe src="https://indify.co/widgets/live/clock/Tgv4u7gSkGnwCMJ7bhPa" title="Relógio" loading="lazy"></iframe>
+          </div>
+
+          <div class="cartao cartao-progresso-semana">
+            <h2>Progresso da semana</h2>
+            <div class="anel-progresso-container">
+              <svg viewBox="0 0 120 120" class="anel-progresso">
+                <circle class="anel-fundo" cx="60" cy="60" r="52"></circle>
+                <circle class="anel-preenchimento" id="anel-semana" cx="60" cy="60" r="52"></circle>
+              </svg>
+              <div class="anel-texto" id="anel-semana-texto">0%</div>
+            </div>
+            <p class="anel-legenda" id="anel-semana-legenda">Carregando...</p>
+          </div>
+        </div>
+
+        <div class="cartao cartao-agenda">
+          <h2>Agenda da semana</h2>
+          <div class="grade-agenda" id="grade-agenda"></div>
+        </div>
+
+        <div class="grade-plataformas" id="grade-plataformas"></div>
+
+        <div class="cartao">
+          <h2>Tarefas diárias</h2>
+          <div id="lista-diaria"></div>
+        </div>
+
+        <div class="cartao">
+          <h2>Todas as tarefas do calendário</h2>
+          <div id="lista-todas-tarefas"></div>
+        </div>
+
+        <div class="cartao cartao-calendario">
+          <div class="cabecalho-calendario">
+            <h2 id="titulo-calendario">Calendário</h2>
+            <div class="navegacao-calendario">
+              <button class="botao-periodo" id="mes-anterior" type="button">‹</button>
+              <button class="botao-periodo" id="mes-atual" type="button">Hoje</button>
+              <button class="botao-periodo" id="mes-seguinte" type="button">›</button>
+            </div>
+          </div>
+          <div class="grade-calendario" id="grade-calendario"></div>
+          <div class="detalhe-dia" id="detalhe-dia" hidden>
+            <h3 id="detalhe-dia-titulo"></h3>
+            <div class="chips-atividades" id="detalhe-dia-atividades"></div>
+            <div id="detalhe-dia-tarefas"></div>
+            <form class="form-nova-tarefa" id="form-nova-tarefa">
+              <input type="text" id="campo-nova-tarefa" placeholder="Adicionar tarefa para esse dia" required>
+              <button type="submit" class="botao-acao">Adicionar</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Desafio pessoal, à parte: não entra na conta do progresso da semana -->
+        <div class="cartao cartao-desafio">
+          <h2>Desafio: 100 vídeos no YouTube</h2>
+          <p class="legenda-mensal">Meta: 100 vídeos até fevereiro. Vá clicando numa bolinha a cada vídeo postado.</p>
+          <p class="contagem-desafio" id="contagem-desafio">0 / 100</p>
+          <div class="grade-desafio" id="grade-desafio"></div>
+          <div class="controles-pomodoro">
+            <button type="button" class="botao-pomodoro" id="botao-desafio-mais">+ Vídeo postado</button>
+            <button type="button" class="botao-pomodoro secundario" id="botao-desafio-menos">Desfazer último</button>
+          </div>
         </div>
       </section>
     </main>
@@ -874,7 +1311,7 @@
       /* =================================================================
          ABAS
       ================================================================= */
-      const titulosAba = { principal: "Menu Principal", portfolio: "Portfólio" };
+      const titulosAba = { principal: "Menu Principal", portfolio: "Portfólio", rotina: "Minha Rotina" };
 
       document.querySelectorAll(".item-menu").forEach(botao => {
         botao.addEventListener("click", () => {
@@ -927,6 +1364,724 @@
 
       /* ===== Início ===== */
       carregarDados();
+    })();
+  </script>
+
+  <!-- =====================================================================
+       ABA "MINHA ROTINA": pomodoro, checklists semanais/diários e calendário.
+       Fica num script separado por organização, mas usa o mesmo "sb" e
+       "Auth" carregados em js/auth.js.
+  ===================================================================== -->
+  <script>
+    // ===== Configuração das entregas semanais por plataforma =====
+    const CATEGORIAS_SEMANAIS = [
+      {
+        chave: "instagram",
+        nome: "Instagram",
+        legendaMensal: "Meta mensal aproximada: 8 vídeos postados",
+        itens: [
+          { chave: "roteiro", nome: "Roteiros", meta: 2 },
+          { chave: "gravacao", nome: "Gravações", meta: 2 },
+          { chave: "video", nome: "Vídeos postados", meta: 2 },
+          { chave: "prospeccao", nome: "Mensagens de prospecção", meta: 10 }
+        ]
+      },
+      {
+        chave: "tiktok",
+        nome: "TikTok",
+        legendaMensal: "Meta mensal aproximada: 13 vídeos postados",
+        itens: [
+          { chave: "roteiro", nome: "Roteiros", meta: 3 },
+          { chave: "gravacao", nome: "Gravações", meta: 3 },
+          { chave: "video", nome: "Vídeos postados", meta: 3 }
+        ]
+      },
+      {
+        chave: "youtube",
+        nome: "YouTube",
+        legendaMensal: "Meta mensal aproximada: 9 vídeos + 4 lives",
+        itens: [
+          { chave: "roteiro", nome: "Roteiros longos", meta: 2 },
+          { chave: "gravacao", nome: "Gravações", meta: 2 },
+          { chave: "video", nome: "Vídeos postados", meta: 2 },
+          { chave: "live", nome: "Live para membros", meta: 1 }
+        ]
+      }
+    ];
+
+    const TAREFAS_DIARIAS = [
+      { chave: "responder_mensagens", nome: "Responder mensagens do perfil" },
+      { chave: "consumir_referencias", nome: "Consumir referências" },
+      { chave: "olhar_email", nome: "Olhar e-mail" },
+      { chave: "postar_story", nome: "Postar Story" }
+    ];
+
+    // ===== Agenda da semana: o que fazer em cada dia, por período =====
+    const AGENDA_SEMANAL = [
+      { dia: "segunda", nome: "Segunda-feira", tarefas: [
+        { periodo: "Manhã", titulo: "Roteiro Instagram" },
+        { periodo: "Tarde", titulo: "Escrever roteiro Instagram" }
+      ]},
+      { dia: "terca", nome: "Terça-feira", tarefas: [
+        { periodo: "Manhã", titulo: "Roteiro vídeo longo (Filme/Relato)" },
+        { periodo: "Noite", titulo: "Roteiro vídeo longo (Filme/Relato)" }
+      ]},
+      { dia: "quarta", nome: "Quarta-feira", tarefas: [
+        { periodo: "Manhã", titulo: "Revisar e gravar Instagram" },
+        { periodo: "Tarde", titulo: "Roteiro TikTok" }
+      ]},
+      { dia: "quinta", nome: "Quinta-feira", tarefas: [] },
+      { dia: "sexta", nome: "Sexta-feira", tarefas: [
+        { periodo: "Manhã", titulo: "Gravar longo YouTube" },
+        { periodo: "Tarde", titulo: "Gravar TikTok" }
+      ]},
+      { dia: "sabado", nome: "Sábado", tarefas: [
+        { periodo: "Manhã", titulo: "Ideias de conteúdo" }
+      ]},
+      { dia: "domingo", nome: "Domingo", tarefas: [] }
+    ];
+
+    const OFFSET_DIA_SEMANA = { segunda: 0, terca: 1, quarta: 2, quinta: 3, sexta: 4, sabado: 5, domingo: 6 };
+
+    function obterDataDoDiaDaSemana(diaChave) {
+      const inicio = obterInicioSemana(new Date());
+      const data = new Date(inicio);
+      data.setDate(data.getDate() + OFFSET_DIA_SEMANA[diaChave]);
+      return formatarDataISO(data);
+    }
+
+    const NOMES_MESES = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+    const NOMES_DIAS_SEMANA = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
+
+    // ===== Utilidades de data =====
+    function formatarDataISO(data) {
+      const ano = data.getFullYear();
+      const mes = String(data.getMonth() + 1).padStart(2, "0");
+      const dia = String(data.getDate()).padStart(2, "0");
+      return `${ano}-${mes}-${dia}`;
+    }
+
+    function obterInicioSemana(data) {
+      const d = new Date(data);
+      d.setHours(0, 0, 0, 0);
+      const diaSemana = d.getDay();
+      const deslocamento = diaSemana === 0 ? 6 : diaSemana - 1;
+      d.setDate(d.getDate() - deslocamento);
+      return d;
+    }
+
+    function escapeHtmlRotina(texto) {
+      const div = document.createElement("div");
+      div.textContent = texto == null ? "" : String(texto);
+      return div.innerHTML;
+    }
+
+    // ===== Estado em memória =====
+    let todosRegistros = [];
+    let todasTarefas = [];
+    let mesCalendarioExibido = new Date();
+    mesCalendarioExibido.setDate(1);
+    let diaSelecionado = formatarDataISO(new Date());
+
+    // ===== Busca paginada (mesmo motivo do painel principal) =====
+    async function buscarTudoRotina(tabela) {
+      let tudo = [];
+      let inicio = 0;
+      const bloco = 1000;
+      while (true) {
+        const { data, error } = await sb
+          .from(tabela)
+          .select("*")
+          .order("created_at", { ascending: false })
+          .range(inicio, inicio + bloco - 1);
+        if (error) throw error;
+        tudo = tudo.concat(data || []);
+        if (!data || data.length < bloco) break;
+        inicio += bloco;
+      }
+      return tudo;
+    }
+
+    async function carregarRotina() {
+      try {
+        const [registros, tarefas] = await Promise.all([
+          buscarTudoRotina("rotina_registros"),
+          buscarTudoRotina("rotina_tarefas")
+        ]);
+        todosRegistros = registros;
+        todasTarefas = tarefas;
+        renderizarRotina();
+      } catch (erro) {
+        console.error("Não foi possível carregar a rotina:", erro);
+      }
+    }
+
+    // ===== Contagens auxiliares =====
+    function contarRegistrosSemana(categoria, item) {
+      const inicio = obterInicioSemana(new Date());
+      const fim = new Date(inicio);
+      fim.setDate(fim.getDate() + 7);
+      return todosRegistros.filter(r =>
+        r.categoria === categoria && r.item === item &&
+        new Date(r.data + "T00:00:00") >= inicio && new Date(r.data + "T00:00:00") < fim
+      );
+    }
+
+    function jaMarcadoHoje(item) {
+      const hoje = formatarDataISO(new Date());
+      return todosRegistros.find(r => r.categoria === "diario" && r.item === item && r.data === hoje);
+    }
+
+    function contarAtividadesDoDia(dataISO) {
+      return todosRegistros.filter(r => r.data === dataISO).length;
+    }
+
+    // ===== Renderização mestre =====
+    function renderizarRotina() {
+      renderizarAgendaSemanal();
+      renderizarPlataformas();
+      renderizarDiaria();
+      renderizarAnelSemana();
+      renderizarTodasTarefas();
+      renderizarCalendario();
+      renderizarDetalheDia();
+      renderizarDesafio100();
+    }
+
+    // ---- Desafio pessoal dos 100 vídeos (contagem à parte, sem meta semanal) ----
+    const META_DESAFIO_100 = 100;
+
+    function contarDesafio100() {
+      return todosRegistros.filter(r => r.categoria === "desafio_100" && r.item === "video");
+    }
+
+    function renderizarDesafio100() {
+      const registros = contarDesafio100();
+      const total = registros.length;
+
+      document.getElementById("contagem-desafio").textContent = `${total} / ${META_DESAFIO_100}`;
+
+      const grade = document.getElementById("grade-desafio");
+      let html = "";
+      for (let i = 0; i < META_DESAFIO_100; i++) {
+        html += `<div class="circulo-desafio ${i < total ? "preenchido" : ""}"></div>`;
+      }
+      grade.innerHTML = html;
+
+      document.getElementById("botao-desafio-mais").disabled = total >= META_DESAFIO_100;
+      document.getElementById("botao-desafio-menos").disabled = total === 0;
+    }
+
+    document.getElementById("botao-desafio-mais").addEventListener("click", async (evento) => {
+      const botao = evento.currentTarget;
+      botao.disabled = true;
+      try {
+        const { data: novoId, error } = await sb.rpc("rotina_registrar_tick", { p_categoria: "desafio_100", p_item: "video" });
+        if (error) throw error;
+        todosRegistros.unshift({ id: novoId, categoria: "desafio_100", item: "video", data: formatarDataISO(new Date()), created_at: new Date().toISOString() });
+        renderizarDesafio100();
+      } catch (erro) {
+        console.error("Não foi possível registrar o vídeo do desafio:", erro);
+        botao.disabled = false;
+      }
+    });
+
+    document.getElementById("botao-desafio-menos").addEventListener("click", async (evento) => {
+      const botao = evento.currentTarget;
+      const maisRecente = contarDesafio100()[0];
+      if (!maisRecente) return;
+      botao.disabled = true;
+      try {
+        const { error } = await sb.rpc("rotina_remover_tick", { p_id: maisRecente.id });
+        if (error) throw error;
+        todosRegistros = todosRegistros.filter(r => r.id !== maisRecente.id);
+        renderizarDesafio100();
+      } catch (erro) {
+        console.error("Não foi possível desfazer o vídeo do desafio:", erro);
+        botao.disabled = false;
+      }
+    });
+
+    // ---- Todas as tarefas do calendário juntas, sem precisar clicar em cada dia ----
+    function renderizarTodasTarefas() {
+      const container = document.getElementById("lista-todas-tarefas");
+
+      if (todasTarefas.length === 0) {
+        container.innerHTML = `<p class="estado-vazio">Nenhuma tarefa adicionada ainda.</p>`;
+        return;
+      }
+
+      const ordenadas = [...todasTarefas].sort((a, b) => a.data.localeCompare(b.data));
+
+      container.innerHTML = ordenadas.map(t => {
+        const dataFormatada = new Date(t.data + "T00:00:00").toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
+        return `
+          <div class="item-tarefa-manual">
+            <input type="checkbox" data-id="${t.id}" ${t.concluida ? "checked" : ""}>
+            <span class="data-tarefa-lista">${dataFormatada}</span>
+            <span class="${t.concluida ? "concluida" : ""}">${escapeHtmlRotina(t.titulo)}</span>
+            <button type="button" class="botao-remover-tarefa" data-id="${t.id}" aria-label="Remover tarefa">✕</button>
+          </div>
+        `;
+      }).join("");
+
+      container.querySelectorAll("input[type=checkbox]").forEach(caixa => {
+        caixa.addEventListener("change", async () => {
+          const id = caixa.dataset.id;
+          caixa.disabled = true;
+          try {
+            const { error } = await sb.rpc("rotina_marcar_tarefa", { p_id: id, p_concluida: caixa.checked });
+            if (error) throw error;
+            const tarefa = todasTarefas.find(t => t.id === id);
+            if (tarefa) tarefa.concluida = caixa.checked;
+            renderizarTodasTarefas();
+            renderizarDetalheDia();
+          } catch (erro) {
+            console.error("Não foi possível atualizar a tarefa:", erro);
+            caixa.checked = !caixa.checked;
+            caixa.disabled = false;
+          }
+        });
+      });
+
+      container.querySelectorAll(".botao-remover-tarefa").forEach(botao => {
+        botao.addEventListener("click", async () => {
+          const id = botao.dataset.id;
+          try {
+            const { error } = await sb.rpc("rotina_remover_tarefa", { p_id: id });
+            if (error) throw error;
+            todasTarefas = todasTarefas.filter(t => t.id !== id);
+            renderizarTodasTarefas();
+            renderizarDetalheDia();
+            renderizarCalendario();
+          } catch (erro) {
+            console.error("Não foi possível remover a tarefa:", erro);
+          }
+        });
+      });
+    }
+
+    // ---- Agenda da semana (o que fazer em cada dia) ----
+    function contarAgendaSemana() {
+      const inicioSemana = obterInicioSemana(new Date());
+      const agora = new Date();
+      let feito = 0;
+      let meta = 0;
+
+      AGENDA_SEMANAL.forEach(diaInfo => {
+        const dataDia = new Date(inicioSemana);
+        dataDia.setDate(dataDia.getDate() + OFFSET_DIA_SEMANA[diaInfo.dia]);
+        if (dataDia > agora) return; // dia ainda não chegou, não entra na conta
+
+        const dataISO = formatarDataISO(dataDia);
+        diaInfo.tarefas.forEach((t, indice) => {
+          meta += 1;
+          const chaveItem = `${diaInfo.dia}_${indice}`;
+          if (todosRegistros.some(r => r.categoria === "agenda" && r.item === chaveItem && r.data === dataISO)) {
+            feito += 1;
+          }
+        });
+      });
+
+      return { feito, meta };
+    }
+
+    function renderizarAgendaSemanal() {
+      const container = document.getElementById("grade-agenda");
+      const hojeISO = formatarDataISO(new Date());
+
+      container.innerHTML = AGENDA_SEMANAL.map(diaInfo => {
+        const dataISO = obterDataDoDiaDaSemana(diaInfo.dia);
+        const ehHoje = dataISO === hojeISO;
+
+        if (diaInfo.tarefas.length === 0) {
+          return `
+            <div class="cartao-dia-agenda ${ehHoje ? "dia-agenda-hoje" : ""}">
+              <h3>${diaInfo.nome}</h3>
+              <p class="estado-vazio">Dia livre.</p>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="cartao-dia-agenda ${ehHoje ? "dia-agenda-hoje" : ""}">
+            <h3>${diaInfo.nome}</h3>
+            ${diaInfo.tarefas.map((t, indice) => {
+              const chaveItem = `${diaInfo.dia}_${indice}`;
+              const marcado = todosRegistros.some(r => r.categoria === "agenda" && r.item === chaveItem && r.data === dataISO);
+              return `
+                <label class="linha-diaria">
+                  <input type="checkbox" data-dia="${diaInfo.dia}" data-indice="${indice}" data-data="${dataISO}" ${marcado ? "checked" : ""}>
+                  <span class="periodo-tarefa">${t.periodo}</span> ${escapeHtmlRotina(t.titulo)}
+                </label>
+              `;
+            }).join("")}
+          </div>
+        `;
+      }).join("");
+
+      container.querySelectorAll("input[type=checkbox]").forEach(caixa => {
+        caixa.addEventListener("change", async () => {
+          const dia = caixa.dataset.dia;
+          const indice = caixa.dataset.indice;
+          const dataISO = caixa.dataset.data;
+          const chaveItem = `${dia}_${indice}`;
+          caixa.disabled = true;
+          try {
+            if (caixa.checked) {
+              const { data: novoId, error } = await sb.rpc("rotina_registrar_tick", { p_categoria: "agenda", p_item: chaveItem, p_data: dataISO });
+              if (error) throw error;
+              todosRegistros.unshift({ id: novoId, categoria: "agenda", item: chaveItem, data: dataISO, created_at: new Date().toISOString() });
+            } else {
+              const existente = todosRegistros.find(r => r.categoria === "agenda" && r.item === chaveItem && r.data === dataISO);
+              if (existente) {
+                const { error } = await sb.rpc("rotina_remover_tick", { p_id: existente.id });
+                if (error) throw error;
+                todosRegistros = todosRegistros.filter(r => r.id !== existente.id);
+              }
+            }
+            renderizarRotina();
+          } catch (erro) {
+            console.error("Não foi possível atualizar a agenda:", erro);
+            caixa.checked = !caixa.checked;
+            caixa.disabled = false;
+          }
+        });
+      });
+    }
+
+    // ---- Checklists semanais por plataforma ----
+    function renderizarPlataformas() {
+      const container = document.getElementById("grade-plataformas");
+
+      container.innerHTML = CATEGORIAS_SEMANAIS.map(cat => `
+        <div class="cartao cartao-plataforma">
+          <h2>${cat.nome}</h2>
+          <p class="legenda-mensal">${cat.legendaMensal}</p>
+          ${cat.itens.map(item => {
+            const atual = contarRegistrosSemana(cat.chave, item.chave).length;
+            const completo = atual >= item.meta;
+            return `
+              <div class="linha-contador">
+                <span class="nome-contador">${item.nome}</span>
+                <div class="controles-contador">
+                  <button type="button" class="botao-contador" data-acao="remover" data-categoria="${cat.chave}" data-item="${item.chave}" ${atual === 0 ? "disabled" : ""}>−</button>
+                  <span class="valor-contador ${completo ? "completo" : ""}">${atual}/${item.meta}</span>
+                  <button type="button" class="botao-contador" data-acao="adicionar" data-categoria="${cat.chave}" data-item="${item.chave}" ${completo ? "disabled" : ""}>+</button>
+                </div>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      `).join("");
+
+      container.querySelectorAll(".botao-contador").forEach(botao => {
+        botao.addEventListener("click", async () => {
+          const categoria = botao.dataset.categoria;
+          const item = botao.dataset.item;
+          botao.disabled = true;
+          try {
+            if (botao.dataset.acao === "adicionar") {
+              const { data: novoId, error } = await sb.rpc("rotina_registrar_tick", { p_categoria: categoria, p_item: item });
+              if (error) throw error;
+              todosRegistros.unshift({ id: novoId, categoria, item, data: formatarDataISO(new Date()), created_at: new Date().toISOString() });
+            } else {
+              const maisRecente = contarRegistrosSemana(categoria, item)[0];
+              if (maisRecente) {
+                const { error } = await sb.rpc("rotina_remover_tick", { p_id: maisRecente.id });
+                if (error) throw error;
+                todosRegistros = todosRegistros.filter(r => r.id !== maisRecente.id);
+              }
+            }
+            renderizarRotina();
+          } catch (erro) {
+            console.error("Não foi possível atualizar o contador:", erro);
+            botao.disabled = false;
+          }
+        });
+      });
+    }
+
+    // ---- Checklist diário ----
+    function renderizarDiaria() {
+      const container = document.getElementById("lista-diaria");
+
+      container.innerHTML = TAREFAS_DIARIAS.map(t => `
+        <label class="linha-diaria">
+          <input type="checkbox" data-item="${t.chave}" ${jaMarcadoHoje(t.chave) ? "checked" : ""}>
+          ${t.nome}
+        </label>
+      `).join("");
+
+      container.querySelectorAll("input[type=checkbox]").forEach(caixa => {
+        caixa.addEventListener("change", async () => {
+          const item = caixa.dataset.item;
+          caixa.disabled = true;
+          try {
+            if (caixa.checked) {
+              const { data: novoId, error } = await sb.rpc("rotina_registrar_tick", { p_categoria: "diario", p_item: item });
+              if (error) throw error;
+              todosRegistros.unshift({ id: novoId, categoria: "diario", item, data: formatarDataISO(new Date()), created_at: new Date().toISOString() });
+            } else {
+              const existente = jaMarcadoHoje(item);
+              if (existente) {
+                const { error } = await sb.rpc("rotina_remover_tick", { p_id: existente.id });
+                if (error) throw error;
+                todosRegistros = todosRegistros.filter(r => r.id !== existente.id);
+              }
+            }
+            renderizarRotina();
+          } catch (erro) {
+            console.error("Não foi possível atualizar a tarefa diária:", erro);
+            caixa.checked = !caixa.checked;
+            caixa.disabled = false;
+          }
+        });
+      });
+    }
+
+    // ---- Anel de progresso da semana ----
+    function renderizarAnelSemana() {
+      let totalFeito = 0;
+      let totalMeta = 0;
+
+      CATEGORIAS_SEMANAIS.forEach(cat => {
+        cat.itens.forEach(item => {
+          totalFeito += Math.min(contarRegistrosSemana(cat.chave, item.chave).length, item.meta);
+          totalMeta += item.meta;
+        });
+      });
+
+      // As tarefas diárias contam só o dia de hoje (elas se repetem todo dia,
+      // então não faz sentido cobrar os dias que já passaram antes de você
+      // começar a usar o painel).
+      TAREFAS_DIARIAS.forEach(t => {
+        totalMeta += 1;
+        if (jaMarcadoHoje(t.chave)) totalFeito += 1;
+      });
+
+      const agenda = contarAgendaSemana();
+      totalFeito += agenda.feito;
+      totalMeta += agenda.meta;
+
+      const percentual = totalMeta > 0 ? Math.round((totalFeito / totalMeta) * 100) : 0;
+      const raio = 52;
+      const circunferencia = 2 * Math.PI * raio;
+      const circulo = document.getElementById("anel-semana");
+      circulo.style.strokeDasharray = `${circunferencia}`;
+      circulo.style.strokeDashoffset = `${circunferencia * (1 - percentual / 100)}`;
+      document.getElementById("anel-semana-texto").textContent = `${percentual}%`;
+      document.getElementById("anel-semana-legenda").textContent = `${totalFeito} de ${totalMeta} tarefas concluídas nesta semana`;
+    }
+
+    // ---- Calendário ----
+    function renderizarCalendario() {
+      const ano = mesCalendarioExibido.getFullYear();
+      const mes = mesCalendarioExibido.getMonth();
+      document.getElementById("titulo-calendario").textContent = `${NOMES_MESES[mes]} ${ano}`;
+
+      const diaSemanaPrimeiro = new Date(ano, mes, 1).getDay();
+      const deslocamentoInicial = diaSemanaPrimeiro === 0 ? 6 : diaSemanaPrimeiro - 1;
+      const diasNoMes = new Date(ano, mes + 1, 0).getDate();
+      const hojeISO = formatarDataISO(new Date());
+
+      const celulas = [];
+      for (let i = 0; i < deslocamentoInicial; i++) celulas.push({ fora: true });
+      for (let dia = 1; dia <= diasNoMes; dia++) {
+        const dataISO = formatarDataISO(new Date(ano, mes, dia));
+        celulas.push({
+          dia,
+          dataISO,
+          hoje: dataISO === hojeISO,
+          totalBadge: contarAtividadesDoDia(dataISO) + todasTarefas.filter(t => t.data === dataISO).length
+        });
+      }
+
+      const rotulos = NOMES_DIAS_SEMANA.map(n => `<div class="rotulo-dia-semana">${n}</div>`).join("");
+      const dias = celulas.map(c => {
+        if (c.fora) return `<div class="dia-calendario fora-do-mes"></div>`;
+        const selecionado = diaSelecionado === c.dataISO;
+        return `
+          <div class="dia-calendario ${c.hoje ? "hoje" : ""} ${selecionado ? "selecionado" : ""}" data-data="${c.dataISO}">
+            ${c.dia}
+            ${c.totalBadge > 0 ? `<span class="badge-dia">${c.totalBadge}</span>` : ""}
+          </div>
+        `;
+      }).join("");
+
+      const container = document.getElementById("grade-calendario");
+      container.innerHTML = rotulos + dias;
+
+      container.querySelectorAll(".dia-calendario[data-data]").forEach(el => {
+        el.addEventListener("click", () => {
+          diaSelecionado = el.dataset.data;
+          renderizarCalendario();
+          renderizarDetalheDia();
+        });
+      });
+    }
+
+    // ---- Detalhe do dia selecionado no calendário ----
+    function renderizarDetalheDia() {
+      const painel = document.getElementById("detalhe-dia");
+      if (!diaSelecionado) {
+        painel.hidden = true;
+        return;
+      }
+      painel.hidden = false;
+
+      const dataObj = new Date(diaSelecionado + "T00:00:00");
+      document.getElementById("detalhe-dia-titulo").textContent =
+        dataObj.toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "long" });
+
+      const registrosDoDia = todosRegistros.filter(r => r.data === diaSelecionado);
+      const nomesAtividades = registrosDoDia.map(r => {
+        const cat = CATEGORIAS_SEMANAIS.find(c => c.chave === r.categoria);
+        const item = cat && cat.itens.find(i => i.chave === r.item);
+        const tarefaDiaria = TAREFAS_DIARIAS.find(t => t.chave === r.item);
+        const nomeItem = (item && item.nome) || (tarefaDiaria && tarefaDiaria.nome) || r.item;
+        const nomeCat = (cat && cat.nome) || "Diário";
+        return `${nomeCat}: ${nomeItem}`;
+      });
+
+      const containerAtividades = document.getElementById("detalhe-dia-atividades");
+      containerAtividades.innerHTML = nomesAtividades.length
+        ? nomesAtividades.map(n => `<span class="chip-atividade">${escapeHtmlRotina(n)}</span>`).join("")
+        : `<p class="estado-vazio">Nenhuma atividade registrada nesse dia.</p>`;
+
+      const tarefasDoDia = todasTarefas.filter(t => t.data === diaSelecionado);
+      const containerTarefas = document.getElementById("detalhe-dia-tarefas");
+      containerTarefas.innerHTML = tarefasDoDia.map(t => `
+        <div class="item-tarefa-manual">
+          <input type="checkbox" data-id="${t.id}" ${t.concluida ? "checked" : ""}>
+          <span class="${t.concluida ? "concluida" : ""}">${escapeHtmlRotina(t.titulo)}</span>
+          <button type="button" class="botao-remover-tarefa" data-id="${t.id}" aria-label="Remover tarefa">✕</button>
+        </div>
+      `).join("");
+
+      containerTarefas.querySelectorAll("input[type=checkbox]").forEach(caixa => {
+        caixa.addEventListener("change", async () => {
+          const id = caixa.dataset.id;
+          try {
+            const { error } = await sb.rpc("rotina_marcar_tarefa", { p_id: id, p_concluida: caixa.checked });
+            if (error) throw error;
+            const tarefa = todasTarefas.find(t => t.id === id);
+            if (tarefa) tarefa.concluida = caixa.checked;
+            renderizarDetalheDia();
+          } catch (erro) {
+            console.error("Não foi possível atualizar a tarefa:", erro);
+            caixa.checked = !caixa.checked;
+          }
+        });
+      });
+
+      containerTarefas.querySelectorAll(".botao-remover-tarefa").forEach(botao => {
+        botao.addEventListener("click", async () => {
+          const id = botao.dataset.id;
+          try {
+            const { error } = await sb.rpc("rotina_remover_tarefa", { p_id: id });
+            if (error) throw error;
+            todasTarefas = todasTarefas.filter(t => t.id !== id);
+            renderizarDetalheDia();
+            renderizarCalendario();
+          } catch (erro) {
+            console.error("Não foi possível remover a tarefa:", erro);
+          }
+        });
+      });
+    }
+
+    document.getElementById("form-nova-tarefa").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!diaSelecionado) return;
+      const campo = document.getElementById("campo-nova-tarefa");
+      const titulo = campo.value.trim();
+      if (!titulo) return;
+      try {
+        const { data: novoId, error } = await sb.rpc("rotina_adicionar_tarefa", { p_data: diaSelecionado, p_titulo: titulo });
+        if (error) throw error;
+        todasTarefas.unshift({ id: novoId, data: diaSelecionado, titulo, concluida: false, created_at: new Date().toISOString() });
+        campo.value = "";
+        renderizarDetalheDia();
+        renderizarCalendario();
+      } catch (erro) {
+        console.error("Não foi possível adicionar a tarefa:", erro);
+      }
+    });
+
+    document.getElementById("mes-anterior").addEventListener("click", () => {
+      mesCalendarioExibido.setMonth(mesCalendarioExibido.getMonth() - 1);
+      renderizarCalendario();
+    });
+    document.getElementById("mes-seguinte").addEventListener("click", () => {
+      mesCalendarioExibido.setMonth(mesCalendarioExibido.getMonth() + 1);
+      renderizarCalendario();
+    });
+    document.getElementById("mes-atual").addEventListener("click", () => {
+      mesCalendarioExibido = new Date();
+      mesCalendarioExibido.setDate(1);
+      diaSelecionado = formatarDataISO(new Date());
+      renderizarCalendario();
+      renderizarDetalheDia();
+    });
+
+    // ===== Pomodoro (só no navegador, não precisa salvar em lugar nenhum) =====
+    function criarTemporizador(idRelogio, minutosIniciais) {
+      let segundosRestantes = minutosIniciais * 60;
+      let intervalo = null;
+
+      function atualizarTela() {
+        const min = Math.floor(segundosRestantes / 60);
+        const seg = segundosRestantes % 60;
+        document.getElementById(idRelogio).textContent = `${String(min).padStart(2, "0")}:${String(seg).padStart(2, "0")}`;
+      }
+
+      function iniciar() {
+        if (intervalo) return;
+        intervalo = setInterval(() => {
+          if (segundosRestantes > 0) {
+            segundosRestantes--;
+            atualizarTela();
+          } else {
+            clearInterval(intervalo);
+            intervalo = null;
+          }
+        }, 1000);
+      }
+
+      function pausar() {
+        clearInterval(intervalo);
+        intervalo = null;
+      }
+
+      function reiniciar() {
+        pausar();
+        segundosRestantes = minutosIniciais * 60;
+        atualizarTela();
+      }
+
+      atualizarTela();
+      return { iniciar, pausar, reiniciar };
+    }
+
+    const temporizadoresPomodoro = {
+      foco: criarTemporizador("relogio-foco", 25),
+      pausa: criarTemporizador("relogio-pausa", 15)
+    };
+
+    document.querySelectorAll(".botao-pomodoro").forEach(botao => {
+      botao.addEventListener("click", () => {
+        const timer = temporizadoresPomodoro[botao.dataset.timer];
+        const acao = botao.dataset.acao;
+        if (timer && timer[acao]) timer[acao]();
+      });
+    });
+
+    // ===== Início (espera a mesma sessão já validada pelo painel principal) =====
+    (async () => {
+      const usuario = await Auth.checkAuth();
+      if (!usuario) return;
+      carregarRotina();
     })();
   </script>
 </body>
