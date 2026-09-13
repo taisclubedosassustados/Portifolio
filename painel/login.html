@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Acesso restrito | meu.painel</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --coral: #D4572A;
+    --coral-escuro: #B8461F;
+    --creme: #F5F3EF;
+    --branco: #FFFFFF;
+    --grafite: #1A1816;
+    --texto-suave: #6B645C;
+    --borda: #DDD8D0;
+    --verde: #2D7A4F;
+    --vermelho: #C4453C;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: var(--creme);
+    color: var(--grafite);
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .cartao-login {
+    width: 100%;
+    max-width: 420px;
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: 24px;
+    box-shadow: 0 18px 40px rgba(26, 24, 22, .08);
+    padding: 40px 36px;
+  }
+
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .logo .ponto { color: var(--coral); }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0 0 8px;
+    text-align: center;
+  }
+
+  .subtitulo {
+    color: var(--texto-suave);
+    text-align: center;
+    font-size: .95rem;
+    margin: 0 0 28px;
+    line-height: 1.5;
+  }
+
+  .faixa-erro,
+  .faixa-sucesso {
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: .9rem;
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+  .faixa-erro {
+    background: #FBEAE8;
+    color: var(--vermelho);
+    border: 1px solid rgba(196, 69, 60, .25);
+  }
+  .faixa-sucesso {
+    background: #E8F3EC;
+    color: var(--verde);
+    border: 1px solid rgba(45, 122, 79, .25);
+  }
+
+  label {
+    display: block;
+    font-size: .85rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .campo {
+    margin-bottom: 18px;
+  }
+
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px 14px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background: var(--creme);
+    color: var(--grafite);
+    outline: none;
+    transition: border-color .15s ease;
+  }
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    border-color: var(--coral);
+  }
+
+  .link-secundario {
+    display: block;
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--texto-suave);
+    font-family: 'Outfit', sans-serif;
+    font-size: .85rem;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-bottom: 22px;
+    text-align: right;
+    width: 100%;
+  }
+  .link-secundario:hover { color: var(--coral); }
+
+  .botao-principal {
+    width: 100%;
+    padding: 14px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--branco);
+    background: var(--coral);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background .15s ease;
+  }
+  .botao-principal:hover:not(:disabled) { background: var(--coral-escuro); }
+  .botao-principal:disabled { opacity: .7; cursor: default; }
+
+  .texto-central {
+    color: var(--texto-suave);
+    font-size: .9rem;
+    line-height: 1.5;
+    margin: 0 0 16px;
+  }
+
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+  <div class="cartao-login">
+    <div class="logo">meu<span class="ponto">.</span>painel</div>
+
+    <!-- ===== Tela de login ===== -->
+    <div id="area-login">
+      <h1>Acesso restrito</h1>
+      <p class="subtitulo">Faça login para ver os números do seu portfólio.</p>
+
+      <div id="faixa-erro" class="faixa-erro" hidden></div>
+
+      <form id="form-login">
+        <div class="campo">
+          <label for="campo-email">E-mail</label>
+          <input type="email" id="campo-email" autocomplete="username" required>
+        </div>
+        <div class="campo">
+          <label for="campo-senha">Senha</label>
+          <input type="password" id="campo-senha" autocomplete="current-password" required>
+        </div>
+
+        <button type="button" class="link-secundario" id="link-esqueci">Esqueci minha senha</button>
+
+        <button type="submit" class="botao-principal" id="botao-entrar">Entrar</button>
+      </form>
+    </div>
+
+    <!-- ===== Tela de recuperação de senha ===== -->
+    <div id="area-recuperar" hidden>
+      <h1>Recuperar senha</h1>
+      <p class="texto-central">Digite seu e-mail e enviaremos um link para você criar uma nova senha.</p>
+
+      <div id="faixa-sucesso-recuperar" class="faixa-sucesso" hidden></div>
+      <div id="faixa-erro-recuperar" class="faixa-erro" hidden></div>
+
+      <form id="form-recuperar">
+        <div class="campo">
+          <label for="campo-email-recuperar">E-mail</label>
+          <input type="email" id="campo-email-recuperar" autocomplete="username" required>
+        </div>
+
+        <button type="submit" class="botao-principal" id="botao-recuperar">Enviar link</button>
+      </form>
+
+      <button type="button" class="link-secundario" id="link-voltar" style="text-align:center; margin-top:18px;">Voltar para o login</button>
+    </div>
+  </div>
+
+  <!-- Supabase (CDN) precisa carregar antes de js/auth.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Se já existir uma sessão ativa, pula direto para o painel.
+    (async () => {
+      const { data } = await sb.auth.getSession();
+      if (data.session) {
+        window.location.href = "painel.html";
+      }
+    })();
+
+    const areaLogin = document.getElementById("area-login");
+    const areaRecuperar = document.getElementById("area-recuperar");
+
+    const formLogin = document.getElementById("form-login");
+    const faixaErro = document.getElementById("faixa-erro");
+    const botaoEntrar = document.getElementById("botao-entrar");
+
+    formLogin.addEventListener("submit", async (evento) => {
+      evento.preventDefault();
+      faixaErro.hidden = true;
+
+      const email = document.getElementById("campo-email").value.trim();
+      const senha = document.getElementById("campo-senha").value;
+
+      botaoEntrar.disabled = true;
+      botaoEntrar.textContent = "Entrando...";
+
+      try {
+        await Auth.login(email, senha);
+        window.location.href = "painel.html";
+      } catch (erro) {
+        faixaErro.textContent = erro.message || "Não foi possível entrar. Tente novamente.";
+        faixaErro.hidden = false;
+        botaoEntrar.disabled = false;
+        botaoEntrar.textContent = "Entrar";
+      }
+    });
+
+    // ===== Alternar para a tela "esqueci minha senha" =====
+    document.getElementById("link-esqueci").addEventListener("click", () => {
+      areaLogin.hidden = true;
+      areaRecuperar.hidden = false;
+    });
+
+    document.getElementById("link-voltar").addEventListener("click", () => {
+      areaRecuperar.hidden = true;
+      areaLogin.hidden = false;
+    });
+
+    const formRecuperar = document.getElementById("form-recuperar");
+    const faixaSucessoRecuperar = document.getElementById("faixa-sucesso-recuperar");
+    const faixaErroRecuperar = document.getElementById("faixa-erro-recuperar");
+    const botaoRecuperar = document.getElementById("botao-recuperar");
+
+    formRecuperar.addEventListener("submit", async (evento) => {
+      evento.preventDefault();
+      faixaSucessoRecuperar.hidden = true;
+      faixaErroRecuperar.hidden = true;
+
+      const email = document.getElementById("campo-email-recuperar").value.trim();
+
+      botaoRecuperar.disabled = true;
+      botaoRecuperar.textContent = "Enviando...";
+
+      try {
+        await Auth.recuperarSenha(email);
+        faixaSucessoRecuperar.textContent = "Se esse e-mail estiver cadastrado, você vai receber um link para redefinir sua senha.";
+        faixaSucessoRecuperar.hidden = false;
+        formRecuperar.reset();
+      } catch (erro) {
+        faixaErroRecuperar.textContent = erro.message || "Não foi possível enviar o e-mail agora.";
+        faixaErroRecuperar.hidden = false;
+      } finally {
+        botaoRecuperar.disabled = false;
+        botaoRecuperar.textContent = "Enviar link";
+      }
+    });
+  </script>
+</body>
+</html>
