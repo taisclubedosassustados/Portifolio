@@ -399,7 +399,29 @@
   .portfolio-item { transition: opacity .3s ease, transform .3s ease; }
   .portfolio-item.escondido { display: none; }
   .portfolio-item .bloco-gradiente { aspect-ratio: 4/5; border-radius: 0; }
-  .portfolio-item iframe { display: block; width: 100%; aspect-ratio: 9/16; border: 0; }
+  .video-wrapper { position: relative; }
+  .video-wrapper iframe { display: block; width: 100%; aspect-ratio: 9/16; border: 0; }
+  .dica-som {
+    position: absolute;
+    left: 10px;
+    bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    background: rgba(23, 19, 22, .82);
+    color: var(--branco);
+    font-family: 'American Typewriter', 'VT323', monospace;
+    font-size: .95rem;
+    border-radius: 20px;
+    pointer-events: none;
+    animation: dica-pulsar 1.6s ease-in-out infinite;
+    z-index: 2;
+  }
+  @keyframes dica-pulsar {
+    0%, 100% { opacity: .85; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.04); }
+  }
   .video-capa {
     position: relative;
     width: 100%;
@@ -831,7 +853,7 @@
     <span class="sticker" style="top:4%; right:6%;" aria-hidden="true"><img src="imagens/stickers/vhs.png" alt=""></span>
     <div class="container">
       <h2 class="titulo-secao">Serviços</h2>
-      <p class="subtitulo-secao">Conteúdo pensado para gerar resultado, do jeito que a sua marca precisa.</p>
+      <p class="subtitulo-secao">Podemos trabalhar em conjunto em um ou mais desses serviços. Vamos conversar e pensar no que a sua marca precisa.</p>
       <div class="grade-servicos" id="grade-servicos"></div>
     </div>
   </section>
@@ -963,8 +985,8 @@
     // EDITE AQUI: serviços oferecidos
     servicos: [
       { icone: "🎬", titulo: "Vídeo UGC", descricao: "Vídeos autênticos, gravados como se fossem de uma cliente real, prontos para usar no seu feed ou nos seus anúncios." },
-      { icone: "📱", titulo: "Reels e TikTok", descricao: "Conteúdo com Storytelling, curto e dinâmico, pensado para reter atenção e gerar compartilhamento nas redes sociais." },
-      { icone: "✍️", titulo: "Roteiros", descricao: "Escrevo roteiros viciantes, que prendem a atenção, e pensados para falar a mesma linguagem do seu público." },
+      { icone: "📱", titulo: "Reels e Tiktok Criativo", descricao: "Conteúdo com Storytelling, curto e dinâmico, pensado para reter atenção e gerar compartilhamento nas redes sociais." },
+      { icone: "✍️", titulo: "Roteiros", descricao: "Escrevo roteiros viciantes, que prendem a atenção, pensados para falar a mesma linguagem do seu público." },
       { icone: "📦", titulo: "Review de produto", descricao: "A experiência real de abrir e testar o seu produto, sem roteiro forçado." },
       { icone: "🗣️", titulo: "Depoimento em Vídeo", descricao: "Depoimentos naturais e persuasivos que reforçam a credibilidade da sua marca perante o público." },
       { icone: "🎯", titulo: "Conteúdo para Anúncios", descricao: "Vídeos com potencial de anúncio, com ganchos fortes para performar em campanhas pagas." }
@@ -1045,15 +1067,34 @@
   });
 
   // ---------- PORTFÓLIO: TOCAR VÍDEO AO CLICAR NA CAPA ----------
+  // Celulares só deixam autoplay funcionar de primeira se o vídeo iniciar mudo.
+  // No computador o navegador já libera com som, então deixamos como estava.
+  const ehCelular = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
   function tocarVideo(capa) {
     const id = capa.dataset.youtubeId;
     const iframe = document.createElement("iframe");
-    iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
+    const parametroMudo = ehCelular ? "&mute=1" : "";
+    iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1${parametroMudo}&rel=0&modestbranding=1`;
     iframe.title = capa.getAttribute("aria-label") || "Vídeo do YouTube";
     iframe.loading = "lazy";
     iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
     iframe.allowFullscreen = true;
-    capa.replaceWith(iframe);
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "video-wrapper";
+    wrapper.appendChild(iframe);
+
+    if (ehCelular) {
+      const dica = document.createElement("span");
+      dica.className = "dica-som";
+      dica.setAttribute("aria-hidden", "true");
+      dica.textContent = "🔇 Toque para ativar o som";
+      wrapper.appendChild(dica);
+      setTimeout(() => dica.remove(), 5000);
+    }
+
+    capa.replaceWith(wrapper);
 
     if (window.PortfolioAnalytics) {
       PortfolioAnalytics.registrarEvento("video_view", id, {
