@@ -10,12 +10,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <style>
   :root {
-    --rosa: #ff4fb0;
-    --amarelo: #ffe24d;
-    --verde: #b6ff5c;
-    --roxo: #b794ff;
-    --ceu: #7ec8ff;
-    --ceu-claro: #b9e3ff;
+    --rosa: #ad251d;
+    --amarelo: #e0a72c;
+    --verde: #cfbb9f;
+    --roxo: #100d64;
+    --ceu: #e6d6ba;
+    --ceu-claro: #f2e8d5;
     --preto: #171316;
     --branco: #fffdf7;
     --sombra: 6px 6px 0px var(--preto);
@@ -33,7 +33,7 @@
     font-family: 'American Typewriter', 'VT323', monospace;
     font-size: 1.2rem;
     color: var(--preto);
-    background: linear-gradient(180deg, var(--ceu) 0%, var(--ceu-claro) 45%, #fef6ff 100%);
+    background: linear-gradient(180deg, var(--ceu) 0%, var(--ceu-claro) 45%, #fdf8ef 100%);
     overflow-x: hidden;
   }
   /* overlay separado (não filter no body/conteúdo) para não quebrar o position:fixed dos elementos VHS */
@@ -128,6 +128,7 @@
   }
   .botao.secundario { background: var(--amarelo); color: var(--preto); }
   .botao.terciario { background: var(--verde); color: var(--preto); }
+  #link-whatsapp { background: #3fa34d; color: var(--branco); }
   .botao.roxo { background: var(--roxo); color: var(--branco); }
 
   :focus-visible {
@@ -181,6 +182,20 @@
     pointer-events: none;
     user-select: none;
     z-index: 1;
+  }
+  .sticker img {
+    display: block;
+    width: clamp(3.2rem, 7vw, 4.4rem);
+    height: auto;
+    filter: drop-shadow(3px 3px 0 rgba(23,19,22,.28));
+  }
+  .enfeite-flutuante {
+    display: block;
+    width: clamp(3.2rem, 7vw, 4.4rem);
+    height: auto;
+    margin: 6px auto 0;
+    filter: drop-shadow(3px 3px 0 rgba(23,19,22,.28));
+    animation: brilhar 2.6s ease-in-out infinite;
   }
   @keyframes brilhar {
     0%, 100% { transform: scale(1) rotate(0deg); opacity: .85; }
@@ -287,7 +302,7 @@
     margin-bottom: 26px;
     font-weight: 500;
   }
-  .hero-imagem { flex: 1 1 240px; max-width: 300px; min-width: 0; margin: 0 auto; }
+  .hero-imagem { flex: 1 1 320px; max-width: 400px; min-width: 0; margin: 0 auto; }
   .bloco-gradiente {
     aspect-ratio: 1 / 1;
     border-radius: 16px;
@@ -377,12 +392,42 @@
 
   .galeria {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 300px));
+    justify-content: center;
     gap: 24px;
   }
   .portfolio-item { transition: opacity .3s ease, transform .3s ease; }
   .portfolio-item.escondido { display: none; }
   .portfolio-item .bloco-gradiente { aspect-ratio: 4/5; border-radius: 0; }
+  .portfolio-item iframe { display: block; width: 100%; aspect-ratio: 9/16; border: 0; }
+  .video-capa {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9/16;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--preto);
+    cursor: pointer;
+    border: 0;
+  }
+  .video-play-botao {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 62px;
+    height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--rosa);
+    color: var(--branco);
+    border: 3px solid var(--preto);
+    border-radius: 50%;
+    box-shadow: var(--sombra-sm);
+    font-size: 1.3rem;
+    padding-left: 4px;
+  }
   .portfolio-legenda { padding: 12px 14px; }
   .portfolio-legenda h3 { font-size: .8rem; margin: 0 0 6px; -webkit-text-stroke: 0; color: var(--preto); }
   .tag-categoria {
@@ -442,6 +487,33 @@
     color: var(--branco);
     font-weight: 600;
     margin: 6px 0 0;
+  }
+  .prints-titulo {
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--amarelo);
+    margin: 60px 0 24px;
+  }
+  .grade-prints {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 340px));
+    justify-content: center;
+    gap: 22px;
+  }
+  .print-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .foto-real {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 3px solid var(--preto);
+    box-shadow: var(--sombra);
   }
 
   /* ---------- DEPOIMENTOS ---------- */
@@ -550,7 +622,7 @@
     section { padding: 60px 16px; }
     .hero { padding-top: 130px; }
     .hero-flex { flex-wrap: wrap; }
-    .hero-imagem { max-width: 320px; }
+    .hero-imagem { max-width: 380px; }
     .contato-direto { align-self: stretch; }
   }
 
@@ -708,20 +780,17 @@
 
   <!-- HERO -->
   <section id="topo" class="hero">
-    <span class="sticker" style="top:10%; left:4%;" aria-hidden="true">✦</span>
-    <span class="sticker" style="bottom:6%; right:6%; animation-delay:.8s;" aria-hidden="true">⭐</span>
+    <span class="sticker" style="top:10%; left:4%;" aria-hidden="true"><img src="imagens/stickers/fantasma.png" alt=""></span>
+    <span class="sticker" style="bottom:6%; right:6%; animation-delay:.8s;" aria-hidden="true"><img src="imagens/stickers/camera.png" alt=""></span>
     <div class="container hero-flex">
       <div class="hero-texto reveal">
-        <p class="pixel">CRIADORA DE CONTEÚDO UGC</p>
+        <p class="pixel">TAIS - CRIADORA DE CONTEÚDO</p>
         <h1 id="hero-nome">SEU NOME</h1>
         <p id="hero-frase"></p>
         <a href="#contato" class="botao" id="hero-cta">Fale comigo</a>
       </div>
       <div class="hero-imagem reveal">
-        <div class="bloco-gradiente grad-1" role="img" aria-label="Foto de perfil de SEU NOME, criadora de conteúdo UGC">
-          <!-- EDITE AQUI: troque esta div por <img src="sua-foto.jpg" alt="Foto de SEU NOME"> para usar uma foto real -->
-          FOTO DE PERFIL
-        </div>
+        <img class="foto-real" src="imagens/perfil/Fotoperfil.JPG" alt="Foto de perfil da Tais, criadora do Clube dos Assustados">
       </div>
     </div>
   </section>
@@ -734,34 +803,32 @@
 
   <!-- SOBRE -->
   <section id="sobre">
-    <span class="sticker" style="top:4%; right:8%;" aria-hidden="true">💫</span>
+    <span class="sticker" style="top:4%; right:8%;" aria-hidden="true"><img src="imagens/stickers/vhs.png" alt=""></span>
     <div class="container sobre">
       <div class="sobre-imagem reveal">
-        <div class="bloco-gradiente grad-3" role="img" aria-label="Foto de SEU NOME gravando conteúdo">
-          <!-- EDITE AQUI: troque esta div por <img src="sua-foto-sobre.jpg" alt="SEU NOME gravando conteúdo"> para usar uma foto real -->
-          NOS BASTIDORES
-        </div>
+        <img class="foto-real" src="imagens/perfil/bastidoressobremim.jpg" alt="Tais gravando conteúdo de terror nos bastidores">
       </div>
       <div class="sobre-texto reveal">
         <h2 class="titulo-secao" style="text-align:left; color:var(--rosa); -webkit-text-stroke:2px var(--preto);">Sobre mim</h2>
-        <p id="sobre-texto"></p>
+        <div id="sobre-texto"></div>
       </div>
     </div>
   </section>
 
   <!-- PORTFÓLIO -->
   <section id="portfolio">
-    <span class="sticker" style="top:2%; left:2%;" aria-hidden="true">🌟</span>
+    <span class="sticker" style="top:2%; left:2%;" aria-hidden="true"><img src="imagens/stickers/lobo.png" alt=""></span>
     <div class="container">
       <h2 class="titulo-secao">Portfólio</h2>
-      <p class="subtitulo-secao">Uma amostra dos conteúdos que já criei para marcas de diferentes nichos.</p>
+      <p class="subtitulo-secao">Um pouco dos meus conteúdos em diferentes formatos que já criei.</p>
       <div class="filtros" id="filtros-portfolio"></div>
       <div class="galeria" id="galeria-portfolio"></div>
     </div>
   </section>
 
   <!-- SERVIÇOS -->
-  <section id="servicos" style="background:linear-gradient(180deg, transparent, rgba(183,148,255,.15));">
+  <section id="servicos" style="background:linear-gradient(180deg, transparent, rgba(16,13,100,.10));">
+    <span class="sticker" style="top:4%; right:6%;" aria-hidden="true"><img src="imagens/stickers/vhs.png" alt=""></span>
     <div class="container">
       <h2 class="titulo-secao">Serviços</h2>
       <p class="subtitulo-secao">Conteúdo pensado para gerar resultado, do jeito que a sua marca precisa.</p>
@@ -773,14 +840,16 @@
   <section id="resultados" class="resultados">
     <div class="container">
       <h2 class="titulo-secao">Resultados</h2>
-      <p class="subtitulo-secao">Números que mostram o alcance e o engajamento do meu conteúdo.</p>
+      <p class="subtitulo-secao">Números que mostram o alcance e o engajamento orgânicos do meu conteúdo.</p>
       <div class="grade-numeros" id="grade-numeros"></div>
+      <p class="prints-titulo pixel">📊 Prints do engajamento do meu perfil</p>
+      <div class="grade-prints" id="grade-prints"></div>
     </div>
   </section>
 
   <!-- DEPOIMENTOS -->
   <section id="depoimentos">
-    <span class="sticker" style="bottom:4%; left:4%;" aria-hidden="true">✨</span>
+    <span class="sticker" style="bottom:4%; left:4%;" aria-hidden="true"><img src="imagens/stickers/vampiro.png" alt=""></span>
     <div class="container">
       <h2 class="titulo-secao">Depoimentos</h2>
       <p class="subtitulo-secao">O que as marcas dizem depois de trabalhar comigo.</p>
@@ -789,7 +858,7 @@
   </section>
 
   <!-- CONTATO -->
-  <section id="contato" style="background:linear-gradient(180deg, rgba(255,79,176,.12), transparent);">
+  <section id="contato" style="background:linear-gradient(180deg, rgba(173,37,29,.13), transparent);">
     <div class="container">
       <h2 class="titulo-secao">Vamos trabalhar juntas?</h2>
       <p class="subtitulo-secao">Me conta sobre a sua marca e o tipo de conteúdo que você precisa.</p>
@@ -822,6 +891,8 @@
           <a class="botao terciario botao-contato-direto" id="link-whatsapp" href="#" target="_blank" rel="noopener">📱 Chamar no WhatsApp</a>
           <a class="botao secundario botao-contato-direto" id="link-email" href="#">✉️ Enviar e-mail</a>
           <a class="botao roxo botao-contato-direto" id="link-instagram" href="#" target="_blank" rel="noopener">📸 Ver Instagram</a>
+          <a class="botao botao-contato-direto" id="link-youtube" href="#" target="_blank" rel="noopener">▶️ Ver YouTube</a>
+          <img class="enfeite-flutuante" src="imagens/stickers/fantasma.png" alt="" aria-hidden="true">
         </div>
       </div>
     </div>
@@ -843,13 +914,17 @@
   const CONFIG = {
 
     // EDITE AQUI: nome usado no menu, hero e rodapé
-    nome: "SEU NOME",
+    nome: "Clube dos Assustados",
 
     // EDITE AQUI: frase de impacto do hero (o que você faz por marcas)
-    heroFrase: "Eu crio vídeos e fotos autênticos que fazem a sua marca vender mais, com a linguagem que o seu público confia.",
+    heroFrase: "Crio vídeos criativos e assustadores na linguagem que as pessoas confiam nas redes sociais, mostrando que terror também é cultura!",
 
     // EDITE AQUI: texto da seção Sobre
-    sobreTexto: "Oi, eu sou a SEU NOME! Crio conteúdo autêntico e cheio de personalidade para marcas que querem se conectar de verdade com as pessoas. Já ajudei negócios de beleza, moda, alimentação, fitness e viagem a aparecerem no feed dos clientes certos, com vídeos e fotos que parecem recomendação de amiga, não propaganda. Entrego no prazo, sigo o briefing com atenção e trago ideias para o seu produto brilhar.",
+    sobreTexto: [
+      "Oie, eu sou a Tais!",
+      "Creator do Clube dos Assustados. Sou apaixonada pelo processo de criar e contar histórias assustadoras. Apesar do meu nicho, sou muito criativa e consigo casar bem ele com outros temas, como filmes, beleza, livros, produtos de limpeza, alimentação, fitness e muito mais.",
+      "Faço conteúdos criativos e cheios de personalidade para marcas que querem se conectar de verdade com as pessoas, e aparecer no feed dos clientes certos com vídeos que parecem recomendação de amiga, não propaganda. Entrego no prazo, sigo o briefing com atenção e trago ideias para o seu produto brilhar."
+    ],
 
     // EDITE AQUI: seus contatos
     email: "seuemail@email.com",
@@ -858,38 +933,37 @@
     whatsappNumero: "5500000000000",
     instagram: "@seuusuario",
     tiktok: "@seuusuario",
+    youtube: "@seuusuario",
 
     // EDITE AQUI: marcas que já trabalharam com você (aparecem na faixa rolante)
     marcas: [
-      "Bela Pele Cosméticos", "Vista Bem Moda", "Sabor Caseiro", "Studio Fit",
-      "Voa Fácil Viagens", "Doce Mania", "Pele de Seda", "Passo Certo Calçados"
+      "Coletivo Editorial Literabooks", "Nocturne Consultoria", "Hopi Hari", "Wet'n Wild"
     ],
 
     // EDITE AQUI: categorias usadas nos filtros do portfólio
-    categorias: ["Beleza", "Moda", "Comida", "Fitness", "Viagem"],
+    categorias: ["Meu Conteúdo", "Criativo", "Anúncio", "Experiência / Evento", "Livro", "Filmes", "Unboxing"],
 
-    // EDITE AQUI: trabalhos do portfólio. "arquivo" é só o nome fictício mostrado na barra da janela
+    // EDITE AQUI: trabalhos do portfólio (vídeos do YouTube, marcados como "não listado")
     portfolio: [
-      { titulo: "Unboxing de Skincare", categoria: "Beleza", arquivo: "beleza_01.mp4", gradiente: "grad-1" },
-      { titulo: "Resenha de Maquiagem", categoria: "Beleza", arquivo: "beleza_02.mp4", gradiente: "grad-4" },
-      { titulo: "Look de Verão", categoria: "Moda", arquivo: "moda_01.jpg", gradiente: "grad-2" },
-      { titulo: "Combinando Acessórios", categoria: "Moda", arquivo: "moda_02.jpg", gradiente: "grad-5" },
-      { titulo: "Receita Prática do Dia", categoria: "Comida", arquivo: "comida_01.mp4", gradiente: "grad-3" },
-      { titulo: "Preparo Expresso", categoria: "Comida", arquivo: "comida_02.mp4", gradiente: "grad-1" },
-      { titulo: "Treino em Casa", categoria: "Fitness", arquivo: "fitness_01.mp4", gradiente: "grad-4" },
-      { titulo: "Rotina de Alongamento", categoria: "Fitness", arquivo: "fitness_02.mp4", gradiente: "grad-2" },
-      { titulo: "Mala de Viagem Perfeita", categoria: "Viagem", arquivo: "viagem_01.jpg", gradiente: "grad-5" },
-      { titulo: "Dicas para o Aeroporto", categoria: "Viagem", arquivo: "viagem_02.mp4", gradiente: "grad-3" }
+      { titulo: "Meu Conteúdo #1", categoria: "Meu Conteúdo", youtubeId: "OSvvh8L0etQ" },
+      { titulo: "Meu Conteúdo #2", categoria: "Meu Conteúdo", youtubeId: "NH4zxcxcAqs" },
+      { titulo: "Criativo", categoria: "Criativo", youtubeId: "mYMdlKVAtuo" },
+      { titulo: "Anúncio", categoria: "Anúncio", youtubeId: "VhGQqjXkZ7c" },
+      { titulo: "Experiência / Evento #1", categoria: "Experiência / Evento", youtubeId: "md2uKKeHPyo" },
+      { titulo: "Experiência / Evento #2", categoria: "Experiência / Evento", youtubeId: "ZJ9Z91fKIqk" },
+      { titulo: "Livro", categoria: "Livro", youtubeId: "41Zd2F3z64U" },
+      { titulo: "Filmes", categoria: "Filmes", youtubeId: "KhwtYk6ZzkM" },
+      { titulo: "Unboxing", categoria: "Unboxing", youtubeId: "Iw8CFprJyoQ" }
     ],
 
     // EDITE AQUI: serviços oferecidos
     servicos: [
       { icone: "🎬", titulo: "Vídeo UGC", descricao: "Vídeos autênticos, gravados como se fossem de uma cliente real, prontos para usar no seu feed ou nos seus anúncios." },
-      { icone: "📱", titulo: "Reels e TikTok", descricao: "Conteúdo curto e dinâmico, pensado para reter atenção e gerar compartilhamento nas redes sociais." },
-      { icone: "📸", titulo: "Fotos de Produto", descricao: "Fotos com luz, composição e estética cuidadas para valorizar o seu produto no catálogo e nas redes." },
-      { icone: "📦", titulo: "Unboxing e Review", descricao: "A experiência real de abrir e testar o seu produto, gerando confiança em quem está decidindo comprar." },
+      { icone: "📱", titulo: "Reels e TikTok", descricao: "Conteúdo com Storytelling, curto e dinâmico, pensado para reter atenção e gerar compartilhamento nas redes sociais." },
+      { icone: "✍️", titulo: "Roteiros", descricao: "Escrevo roteiros viciantes, que prendem a atenção, e pensados para falar a mesma linguagem do seu público." },
+      { icone: "📦", titulo: "Review de produto", descricao: "A experiência real de abrir e testar o seu produto, sem roteiro forçado." },
       { icone: "🗣️", titulo: "Depoimento em Vídeo", descricao: "Depoimentos naturais e persuasivos que reforçam a credibilidade da sua marca perante o público." },
-      { icone: "🎯", titulo: "Conteúdo para Anúncios", descricao: "Vídeos e fotos com potencial de anúncio, com ganchos fortes para performar em campanhas pagas." }
+      { icone: "🎯", titulo: "Conteúdo para Anúncios", descricao: "Vídeos com potencial de anúncio, com ganchos fortes para performar em campanhas pagas." }
     ],
 
     // EDITE AQUI: números de resultado (numero é o valor final da contagem)
@@ -898,6 +972,12 @@
       { numero: 12, sufixo: "mi+", label: "Visualizações geradas" },
       { numero: 40, sufixo: "+", label: "Marcas atendidas" },
       { numero: 8, sufixo: "%", label: "Taxa média de engajamento" }
+    ],
+
+    // EDITE AQUI: prints de métricas/engajamento
+    prints: [
+      { titulo: "VISÃO GERAL 30 DIAS", arquivo: "VISÃO GERAL 30 DIAS", imagem: "imagens/prints/visao-geral-30-dias.jpg" },
+      { titulo: "Público", arquivo: "PÚBLICO", imagem: "imagens/prints/publico.jpg" }
     ],
 
     // EDITE AQUI: depoimentos de clientes e marcas
@@ -917,7 +997,7 @@
   document.getElementById("logo-rodape").textContent = CONFIG.nome;
   document.getElementById("hero-nome").textContent = CONFIG.nome;
   document.getElementById("hero-frase").textContent = CONFIG.heroFrase;
-  document.getElementById("sobre-texto").textContent = CONFIG.sobreTexto;
+  document.getElementById("sobre-texto").innerHTML = CONFIG.sobreTexto.map(paragrafo => `<p>${paragrafo}</p>`).join("");
 
   // ---------- FAIXA DE MARCAS (duplicada para o loop do marquee) ----------
   const marcasHtml = CONFIG.marcas.map(m => `<span>${m}</span>`).join("");
@@ -935,11 +1015,12 @@
   galeriaContainer.innerHTML = CONFIG.portfolio.map(item => `
     <div class="portfolio-item reveal janela" data-categoria="${item.categoria}">
       <div class="janela-barra">
-        <span class="janela-titulo">${item.arquivo}</span>
+        <span class="janela-titulo">${item.titulo}</span>
         <span class="janela-controles"><span>_</span><span>□</span><span>✕</span></span>
       </div>
-      <!-- EDITE AQUI: troque esta div "bloco-gradiente" por <img src="seu-arquivo.jpg" alt="${item.titulo}"> para usar mídia real -->
-      <div class="bloco-gradiente ${item.gradiente}" role="img" aria-label="${item.titulo}, categoria ${item.categoria}"></div>
+      <div class="video-capa" data-youtube-id="${item.youtubeId}" style="background-image:url('https://i.ytimg.com/vi/${item.youtubeId}/hqdefault.jpg')" role="button" tabindex="0" aria-label="Reproduzir vídeo: ${item.titulo}">
+        <span class="video-play-botao" aria-hidden="true">▶</span>
+      </div>
       <div class="portfolio-legenda">
         <h3>${item.titulo}</h3>
         <span class="tag-categoria pixel">${item.categoria}</span>
@@ -959,6 +1040,31 @@
     });
   });
 
+  // ---------- PORTFÓLIO: TOCAR VÍDEO AO CLICAR NA CAPA ----------
+  function tocarVideo(capa) {
+    const id = capa.dataset.youtubeId;
+    const iframe = document.createElement("iframe");
+    iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
+    iframe.title = capa.getAttribute("aria-label") || "Vídeo do YouTube";
+    iframe.loading = "lazy";
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.allowFullscreen = true;
+    capa.replaceWith(iframe);
+  }
+
+  galeriaContainer.addEventListener("click", (e) => {
+    const capa = e.target.closest(".video-capa");
+    if (capa) tocarVideo(capa);
+  });
+
+  galeriaContainer.addEventListener("keydown", (e) => {
+    const capa = e.target.closest(".video-capa");
+    if (capa && (e.key === "Enter" || e.key === " ")) {
+      e.preventDefault();
+      tocarVideo(capa);
+    }
+  });
+
   // ---------- SERVIÇOS ----------
   document.getElementById("grade-servicos").innerHTML = CONFIG.servicos.map(s => `
     <div class="servico-card reveal">
@@ -976,6 +1082,17 @@
     </div>
   `).join("");
 
+  // ---------- PRINTS DE ENGAJAMENTO ----------
+  document.getElementById("grade-prints").innerHTML = CONFIG.prints.map(item => `
+    <div class="print-item janela reveal">
+      <div class="janela-barra">
+        <span class="janela-titulo">${item.arquivo}</span>
+        <span class="janela-controles"><span>_</span><span>□</span><span>✕</span></span>
+      </div>
+      <img src="${item.imagem}" alt="${item.titulo}">
+    </div>
+  `).join("");
+
   // ---------- DEPOIMENTOS ----------
   document.getElementById("grade-depoimentos").innerHTML = CONFIG.depoimentos.map(d => `
     <div class="depoimento-card reveal">
@@ -988,11 +1105,13 @@
   document.getElementById("link-whatsapp").href = `https://wa.me/${CONFIG.whatsappNumero}?text=${encodeURIComponent("Olá " + CONFIG.nome + ", vim pelo seu portfólio e quero conversar sobre uma parceria.")}`;
   document.getElementById("link-email").href = `mailto:${CONFIG.email}`;
   document.getElementById("link-instagram").href = `https://instagram.com/${CONFIG.instagram.replace("@", "")}`;
+  document.getElementById("link-youtube").href = `https://youtube.com/${CONFIG.youtube}`;
 
   // ---------- RODAPÉ ----------
   document.getElementById("rodape-redes").innerHTML = `
     <a href="https://instagram.com/${CONFIG.instagram.replace("@", "")}" target="_blank" rel="noopener">Instagram ${CONFIG.instagram}</a>
     <a href="https://tiktok.com/${CONFIG.tiktok.replace("@", "")}" target="_blank" rel="noopener">TikTok ${CONFIG.tiktok}</a>
+    <a href="https://youtube.com/${CONFIG.youtube}" target="_blank" rel="noopener">YouTube ${CONFIG.youtube}</a>
     <a href="mailto:${CONFIG.email}">${CONFIG.email}</a>
   `;
   document.getElementById("copyright").textContent = `© ${new Date().getFullYear()} ${CONFIG.nome}. Todos os direitos reservados.`;
